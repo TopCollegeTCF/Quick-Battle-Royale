@@ -75,6 +75,7 @@ function renderTablesList() {
     TABLES.forEach(table => {
         const item = document.createElement('div');
         item.className = `table-mini-card ${table.id === currentTable ? 'active' : ''}`;
+        item.setAttribute('data-table', table.id);
         item.onclick = () => selectTable(table.id);
         item.innerHTML = `
             <span class="table-mini-icon">${table.icon}</span>
@@ -91,17 +92,8 @@ function selectTable(tableId) {
     currentTable = tableId;
     
     document.querySelectorAll('.table-mini-card').forEach(c => c.classList.remove('active'));
-    if (event && event.currentTarget) {
-        event.currentTarget.classList.add('active');
-    } else {
-        // Если event нет, ищем карточку по data атрибуту
-        const cards = document.querySelectorAll('.table-mini-card');
-        cards.forEach(card => {
-            if (card.querySelector('.table-mini-name')?.textContent === tableId) {
-                card.classList.add('active');
-            }
-        });
-    }
+    const activeCard = document.querySelector(`[data-table="${tableId}"]`);
+    if (activeCard) activeCard.classList.add('active');
     
     const table = TABLES.find(t => t.id === tableId);
     if (!table) return;
@@ -110,7 +102,6 @@ function selectTable(tableId) {
     document.getElementById('selectedName').textContent = table.name;
     document.getElementById('selectedDesc').textContent = table.desc;
     
-    // Загружаем гифку
     const gifPath = `docs/${table.gif}`;
     const gifImg = document.getElementById('tableGif');
     gifImg.src = gifPath;
@@ -121,6 +112,75 @@ function selectTable(tableId) {
     renderTableSchema(tableId);
 }
 
+function parseCreateTable(sql, tableName) {
+    const columns = [];
+    
+    if (!sql || sql.trim() === '') {
+        return columns;
+    }
+    
+    try {
+        const tablePattern = new RegExp(`CREATE\\s+TABLE\\s+${tableName}\\s*\\(([\\s\\S]*?)\\)`, 'i');
+        const match = sql.match(tablePattern);
+        
+        if (!match || !match[1]) {
+            return columns;
+        }
+        
+        let columnsText = match[1];
+        columnsText = columnsText.replace(/FOREIGN\s+KEY.*?(,|$)/gi, '');
+        
+        let depth = 0;
+        let current = '';
+        const parts = [];
+        
+        for (let i = 0; i < columnsText.length; i++) {
+            const char = columnsText[i];
+            
+            if (char === '(') depth++;
+            else if (char === ')') depth--;
+            
+            if (char === ',' && depth === 0) {
+                if (current.trim()) parts.push(current.trim());
+                current = '';
+            } else {
+                current += char;
+            }
+        }
+        
+        if (current.trim()) {
+            parts.push(current.trim());
+        }
+        
+        parts.forEach(part => {
+            if (!part || part.toLowerCase().startsWith('foreign')) return;
+            
+            const words = part.split(/\s+/);
+            if (words.length < 2) return;
+            
+            const name = words[0].replace(/[`\[\]"]/g, '');
+            const type = words[1].toUpperCase();
+            const constraints = words.slice(2).join(' ').toUpperCase();
+            
+            columns.push({
+                name,
+                type,
+                constraints,
+                pk: constraints.includes('PRIMARY KEY') || constraints.includes('PRIMARY'),
+                fk: name.includes('_id') || constraints.includes('REFERENCES'),
+                nn: constraints.includes('NOT NULL') || constraints.includes('NOT'),
+                unq: constraints.includes('UNIQUE'),
+                chk: constraints.includes('CHECK'),
+                def: constraints.includes('DEFAULT')
+            });
+        });
+        
+    } catch (error) {
+        console.error('Ошибка парсинга:', error);
+    }
+    
+    return columns;
+}
 
 function renderTableSchema(tableId) {
     const container = document.getElementById('tableSchema');
@@ -138,9 +198,7 @@ function renderTableSchema(tableId) {
         return;
     }
     
-    // Показываем гифку если есть колонки
     document.getElementById('gifContainer').style.display = 'flex';
-    
     container.innerHTML = '';
     
     columns.forEach(col => {
@@ -166,86 +224,6 @@ function renderTableSchema(tableId) {
         `;
         container.appendChild(card);
     });
-}
-
-function parseCreateTable(sql, tableName) {
-    const columns = [];
-    
-    if (!sql || sql.trim() === '') {
-        return columns;
-    }
-    
-    try {
-        // Более надежный regex для поиска CREATE TABLE
-        const tablePattern = new RegExp(`CREATE\\s+TABLE\\s+${tableName}\\s*\\(([\\s\\S]*?)\\)`, 'i');
-        const match = sql.match(tablePattern);
-        
-        if (!match || !match[1]) {
-            console.log(`CREATE TABLE ${tableName} не найдена`);
-            return columns;
-        }
-        
-        let columnsText = match[1];
-        
-        // Удаляем FOREIGN KEY определения для простоты
-        columnsText = columnsText.replace(/FOREIGN\s+KEY.*?(,|$)/gi, '');
-        
-        // Разбиваем по запятым, но учитываем скобки
-        let depth = 0;
-        let current = '';
-        const parts = [];
-        
-        for (let i = 0; i < columnsText.length; i++) {
-            const char = columnsText[i];
-            
-            if (char === '(') depth++;
-            else if (char === ')') depth--;
-            
-            if (char === ',' && depth === 0) {
-                parts.push(current);
-                current = '';
-            } else {
-                current += char;
-            }
-        }
-        
-        if (current.trim()) {
-            parts.push(current);
-        }
-        
-        // Парсим каждую колонку
-        parts.forEach(part => {
-            const trimmed = part.trim();
-            if (!trimmed || trimmed.toLowerCase().startsWith('foreign')) return;
-            
-            // Разбиваем на слова
-            const words = trimmed.split(/\s+/);
-            if (words.length < 2) return;
-            
-            const name = words[0].replace(/[`\[\]"]/g, '');
-            const type = words[1].toUpperCase();
-            const constraints = words.slice(2).join(' ').toUpperCase();
-            
-            columns.push({
-                name,
-                type,
-                constraints,
-                pk: constraints.includes('PRIMARY KEY') || constraints.includes('PRIMARY'),
-                fk: name.includes('_id') || constraints.includes('REFERENCES'),
-                nn: constraints.includes('NOT NULL') || constraints.includes('NOT'),
-                unq: constraints.includes('UNIQUE'),
-                chk: constraints.includes('CHECK'),
-                def: constraints.includes('DEFAULT')
-            });
-        });
-        
-        console.log(`Найдено колонок для ${tableName}:`, columns.length);
-        
-    } catch (error) {
-        console.error('Ошибка парсинга:', error);
-    }
-    
-    return columns;
 }
 
 async function validateAllTables() {
@@ -324,7 +302,6 @@ async function validateAllTables() {
 
 function calculateTableScore(sql, tableId) {
     let score = 0;
-    const sqlLower = sql.toLowerCase();
     const columns = parseCreateTable(sql, tableId);
     
     columns.forEach(col => {
@@ -344,47 +321,6 @@ function calculateTableScore(sql, tableId) {
     });
     
     return score;
-}
-
-function getDemoSQL(tableId) {
-    const demos = {
-        clans: `CREATE TABLE Clans (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    trophies INTEGER DEFAULT 0,
-    max_members INTEGER DEFAULT 50
-);`,
-        players: `CREATE TABLE Players (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nickname TEXT NOT NULL,
-    level INTEGER CHECK(level BETWEEN 1 AND 14),
-    experience INTEGER DEFAULT 0,
-    arena TEXT,
-    clan_id INTEGER,
-    FOREIGN KEY (clan_id) REFERENCES Clans(id)
-);`,
-        cards: `CREATE TABLE Cards (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT UNIQUE NOT NULL,
-    elixir_cost INTEGER CHECK(elixir_cost BETWEEN 1 AND 9),
-    rarity TEXT,
-    arena_unlock TEXT
-);`,
-        battles: `CREATE TABLE Battles (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    winner_id INTEGER NOT NULL,
-    loser_id INTEGER NOT NULL,
-    battle_date DATETIME DEFAULT CURRENT_TIMESTAMP,
-    duration_seconds INTEGER CHECK(duration_seconds > 0),
-    arena TEXT,
-    winner_trophies_change INTEGER DEFAULT 30,
-    loser_trophies_change INTEGER DEFAULT -30,
-    FOREIGN KEY (winner_id) REFERENCES Players(id),
-    FOREIGN KEY (loser_id) REFERENCES Players(id)
-);`
-    };
-    
-    return demos[tableId] || `-- CREATE TABLE ${tableId} ...`;
 }
 
 function goBack() {
