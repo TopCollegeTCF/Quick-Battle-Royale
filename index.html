@@ -6,27 +6,24 @@
     <title>Clash Royale SQL Arena</title>
     
     <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <!-- Styles -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Фоновый эффект (приглушенный) -->
     <div class="bg-effect"></div>
     
     <main class="main-container">
-        <!-- Заголовок -->
         <header class="header">
             <h1 class="title">
                 <span class="title-sql">SQL</span>
                 <span class="title-arena">ARENA</span>
             </h1>
-            <p class="subtitle">Clash Royale • Проектирование баз данных</p>
+            <p class="subtitle">Clash Royale • Соревнование баз данных</p>
         </header>
         
-        <!-- Карточки команд -->
         <div class="teams-container">
             <!-- Красная команда -->
             <div class="team-card red" id="redTeamCard">
@@ -36,9 +33,7 @@
                     <span class="team-score" id="redScore">0</span>
                 </div>
                 
-                <div class="tables-list" id="redTables">
-                    <!-- Генерируется JS -->
-                </div>
+                <div class="tables-list" id="redTables"></div>
                 
                 <button class="enter-btn red" onclick="enterBattle('red')">
                     <i class="fas fa-sword"></i>
@@ -54,9 +49,7 @@
                     <span class="team-score" id="blueScore">0</span>
                 </div>
                 
-                <div class="tables-list" id="blueTables">
-                    <!-- Генерируется JS -->
-                </div>
+                <div class="tables-list" id="blueTables"></div>
                 
                 <button class="enter-btn blue" onclick="enterBattle('blue')">
                     <i class="fas fa-sword"></i>
@@ -65,23 +58,30 @@
             </div>
         </div>
         
-        <!-- Легенда (подсказки снизу) -->
         <footer class="legend">
             <div class="legend-item">
                 <span class="legend-dot pk"></span>
-                <span>Первичный ключ</span>
+                <span>PRIMARY KEY (+10)</span>
             </div>
             <div class="legend-item">
                 <span class="legend-dot fk"></span>
-                <span>Внешний ключ</span>
+                <span>FOREIGN KEY (+8)</span>
             </div>
             <div class="legend-item">
                 <span class="legend-dot nn"></span>
-                <span>NOT NULL</span>
+                <span>NOT NULL (+5)</span>
             </div>
             <div class="legend-item">
                 <span class="legend-dot unq"></span>
-                <span>UNIQUE</span>
+                <span>UNIQUE (+5)</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-dot chk"></span>
+                <span>CHECK (+5)</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-dot def"></span>
+                <span>DEFAULT (+3)</span>
             </div>
         </footer>
     </main>
