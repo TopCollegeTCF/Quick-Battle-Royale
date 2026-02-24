@@ -187,7 +187,6 @@ body {
     margin-bottom: 10px;
     border: 1px solid rgba(255, 255, 255, 0.02);
     transition: all 0.2s ease;
-    position: relative;
 }
 
 .table-item:hover {
@@ -236,85 +235,6 @@ body {
     padding: 4px 12px;
     border-radius: 30px;
     border: 1px solid rgba(255, 215, 0, 0.2);
-}
-
-/* ПОДСКАЗКА - ИСПРАВЛЕНО: теперь поверх всех элементов */
-.table-item .tooltip {
-    visibility: hidden;
-    position: absolute;
-    bottom: 110%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #1e1e2e;
-    padding: 18px 22px;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    width: 300px;
-    border: 1px solid #ffd700;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 0 2px rgba(255, 215, 0, 0.2);
-    z-index: 9999;
-    margin-bottom: 15px;
-    white-space: normal;
-    line-height: 1.6;
-    color: #ddd;
-    pointer-events: none;
-    backdrop-filter: blur(10px);
-}
-
-.table-item:hover .tooltip {
-    visibility: visible;
-    animation: tooltipFadeIn 0.2s ease;
-}
-
-@keyframes tooltipFadeIn {
-    from { 
-        opacity: 0; 
-        transform: translateX(-50%) translateY(15px); 
-    }
-    to { 
-        opacity: 1; 
-        transform: translateX(-50%) translateY(0); 
-    }
-}
-
-.tooltip strong {
-    color: #ffd700;
-    display: block;
-    margin-bottom: 12px;
-    font-size: 1.2rem;
-    text-align: center;
-    border-bottom: 1px solid rgba(255, 215, 0, 0.3);
-    padding-bottom: 8px;
-}
-
-.tooltip ul {
-    list-style: none;
-    padding: 0;
-}
-
-.tooltip li {
-    margin-bottom: 6px;
-    padding-left: 20px;
-    position: relative;
-}
-
-.tooltip li:before {
-    content: "•";
-    color: #ffd700;
-    position: absolute;
-    left: 5px;
-    font-size: 1.2rem;
-}
-
-.tooltip em {
-    color: #888;
-    font-size: 0.8rem;
-    display: block;
-    margin-top: 12px;
-    text-align: center;
-    font-style: normal;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding-top: 8px;
 }
 
 .enter-btn {
@@ -387,45 +307,4 @@ body {
     .title { font-size: 3rem; }
     .teams-container { gap: 15px; }
     .legend { flex-wrap: wrap; gap: 15px; }
-}
-
-.table-item {
-    position: relative;
-}
-
-.table-item .tooltip {
-    visibility: hidden;
-    position: fixed; /* fixed вместо absolute */
-    bottom: auto;
-    left: auto;
-    transform: none;
-    background: #1e1e2e;
-    padding: 18px 22px;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    width: 320px;
-    border: 1px solid #ffd700;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 0 2px rgba(255, 215, 0, 0.2);
-    z-index: 999999; /* максимальный z-index */
-    white-space: normal;
-    line-height: 1.6;
-    color: #ddd;
-    pointer-events: none;
-    backdrop-filter: blur(10px);
-}
-
-/* Позиционируем подсказку динамически через JS */
-.table-item:hover .tooltip {
-    visibility: visible;
-}
-
-@keyframes tooltipFadeIn {
-    from { 
-        opacity: 0; 
-        transform: translateY(15px); 
-    }
-    to { 
-        opacity: 1; 
-        transform: translateY(0); 
-    }
 }
