@@ -12,7 +12,7 @@ const TABLES = [
 ];
 
 const SCORES = {
-    column: 1, primary_key: 2, foreign_key: 2,
+    column: 4, primary_key: 2, foreign_key: 2,
     not_null: 1, unique: 2, check: 2, default: 3, type_match: 2
 };
 
