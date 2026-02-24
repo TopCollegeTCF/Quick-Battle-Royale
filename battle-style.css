@@ -261,7 +261,8 @@ body {
 }
 
 .gif-container {
-    height: 130px;
+    width: 100%;
+    height: 400px; /* фиксированная высота 400px */
     flex-shrink: 0;
     background: rgba(0, 0, 0, 0.4);
     display: flex;
@@ -272,10 +273,41 @@ body {
 }
 
 .table-gif {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-    opacity: 0.8;
+    width: 400px;
+    height: 400px;
+    object-fit: contain; /* сохраняет пропорции */
+    opacity: 0.9;
+}
+
+/* Адаптация под маленькие экраны */
+@media (max-height: 900px) {
+    .gif-container {
+        height: 350px;
+    }
+    .table-gif {
+        width: 350px;
+        height: 350px;
+    }
+}
+
+@media (max-height: 800px) {
+    .gif-container {
+        height: 300px;
+    }
+    .table-gif {
+        width: 300px;
+        height: 300px;
+    }
+}
+
+@media (max-height: 700px) {
+    .gif-container {
+        height: 250px;
+    }
+    .table-gif {
+        width: 250px;
+        height: 250px;
+    }
 }
 
 .table-schema {
