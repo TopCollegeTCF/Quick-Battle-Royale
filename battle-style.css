@@ -1,4 +1,3 @@
-/* Стили для страницы битвы (без скролла) */
 * {
     margin: 0;
     padding: 0;
@@ -13,30 +12,26 @@ body {
     overflow: hidden;
 }
 
-/* Основной контейнер на всю высоту */
-.battle-container {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    background: linear-gradient(135deg, #0a0a14 0%, #12121f 100%);
-    position: relative;
-    overflow: hidden;
-}
-
-/* Фоновые эффекты (очень приглушенные) */
 .battle-bg {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at 20% 30%, rgba(100, 30, 30, 0.1) 0%, transparent 40%),
-                radial-gradient(circle at 80% 70%, rgba(30, 30, 100, 0.1) 0%, transparent 40%);
+    background: radial-gradient(circle at 20% 30%, rgba(139, 0, 0, 0.1) 0%, transparent 45%),
+                radial-gradient(circle at 80% 70%, rgba(0, 0, 139, 0.1) 0%, transparent 45%);
     pointer-events: none;
     z-index: 0;
 }
 
-/* Хедер фиксированной высоты */
+.battle-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 1;
+}
+
 .battle-header {
     height: 70px;
     flex-shrink: 0;
@@ -46,122 +41,128 @@ body {
     padding: 0 30px;
     background: rgba(10, 10, 20, 0.8);
     backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 215, 0, 0.1);
-    position: relative;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.15);
     z-index: 2;
 }
 
 .back-btn {
     background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     color: #e0e0e0;
-    padding: 8px 20px;
-    border-radius: 30px;
-    font-size: 0.9rem;
+    padding: 8px 22px;
+    border-radius: 40px;
+    font-size: 0.95rem;
     cursor: pointer;
     transition: all 0.2s;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
+    font-weight: 500;
 }
 
 .back-btn:hover {
     border-color: #ffd700;
     color: #ffd700;
+    background: rgba(255, 215, 0, 0.05);
+    transform: scale(1.02);
 }
 
 .team-info {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 25px;
 }
 
 .team-badge {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 5px 20px;
-    border-radius: 30px;
-    background: rgba(255, 255, 255, 0.02);
+    gap: 12px;
+    padding: 6px 25px;
+    border-radius: 40px;
+    background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 215, 0, 0.2);
 }
 
 .team-badge.red-badge .team-emoji {
-    color: #ff6b6b;
+    color: #ff8a8a;
+    text-shadow: 0 0 15px #ff4444;
 }
 
 .team-badge.blue-badge .team-emoji {
-    color: #6b6bff;
+    color: #8a8aff;
+    text-shadow: 0 0 15px #4444ff;
+}
+
+.team-emoji {
+    font-size: 1.6rem;
 }
 
 .team-name {
     font-weight: 600;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
 }
 
 .trophy-counter {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 1.5rem;
-    font-weight: 700;
+    gap: 10px;
+    font-size: 1.8rem;
+    font-weight: 800;
     color: #ffd700;
-    text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
 }
 
-/* Основной контент - занимает всё оставшееся место */
 .battle-content {
     flex: 1;
     min-height: 0;
     display: grid;
-    grid-template-columns: 300px 1fr 300px;
+    grid-template-columns: 280px 1fr 320px;
     gap: 15px;
     padding: 15px;
-    position: relative;
-    z-index: 1;
 }
 
-/* Общий стиль для колонок */
 .column {
-    background: rgba(15, 15, 25, 0.7);
+    background: rgba(15, 15, 25, 0.75);
     backdrop-filter: blur(10px);
-    border-radius: 20px;
+    border-radius: 28px;
     border: 1px solid rgba(255, 215, 0, 0.1);
     display: flex;
     flex-direction: column;
     min-height: 0;
     overflow: hidden;
+    box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.5);
 }
 
 .column-header {
-    padding: 15px;
+    padding: 18px 20px;
     border-bottom: 1px solid rgba(255, 215, 0, 0.1);
-    font-weight: 600;
+    font-weight: 700;
     color: #ffd700;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     flex-shrink: 0;
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
 }
 
 .column-header i {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
 }
 
-/* Левая колонка - список таблиц */
 .tables-list {
     flex: 1;
     overflow-y: auto;
-    padding: 10px;
+    padding: 12px;
     min-height: 0;
 }
 
 .table-mini-card {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 12px;
-    border-radius: 12px;
+    gap: 14px;
+    padding: 14px 16px;
+    border-radius: 18px;
     background: rgba(255, 255, 255, 0.02);
     margin-bottom: 8px;
     cursor: pointer;
@@ -170,18 +171,19 @@ body {
 }
 
 .table-mini-card:hover {
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(255, 255, 255, 0.05);
     border-color: rgba(255, 215, 0, 0.2);
+    transform: translateX(3px);
 }
 
 .table-mini-card.active {
-    background: rgba(255, 215, 0, 0.05);
+    background: rgba(255, 215, 0, 0.08);
     border-color: #ffd700;
 }
 
 .table-mini-icon {
-    font-size: 1.3rem;
-    min-width: 30px;
+    font-size: 1.6rem;
+    min-width: 36px;
     text-align: center;
 }
 
@@ -192,69 +194,76 @@ body {
 
 .table-mini-name {
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: 1rem;
+    color: #fff;
 }
 
 .table-mini-status {
-    width: 8px;
-    height: 8px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
     background: #444;
+    transition: all 0.3s;
 }
 
 .table-mini-status.valid {
     background: #44ff44;
-    box-shadow: 0 0 10px #44ff44;
+    box-shadow: 0 0 15px #44ff44;
 }
 
-/* Центральная колонка - визуализация */
 .visualization-area {
     flex: 1;
     display: flex;
     flex-direction: column;
     min-height: 0;
-    padding: 15px;
+    padding: 18px;
 }
 
 .selected-table-info {
     display: flex;
     align-items: center;
-    gap: 15px;
-    margin-bottom: 15px;
+    gap: 18px;
+    margin-bottom: 18px;
     flex-shrink: 0;
+    background: rgba(255, 255, 255, 0.02);
+    padding: 15px 20px;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 215, 0, 0.1);
 }
 
 .selected-table-icon {
-    font-size: 3rem;
+    font-size: 3.2rem;
     line-height: 1;
 }
 
 .selected-table-name {
-    font-size: 1.5rem;
-    font-weight: 700;
+    font-size: 1.7rem;
+    font-weight: 800;
     color: #ffd700;
+    line-height: 1.2;
 }
 
 .selected-table-desc {
-    color: #888;
-    font-size: 0.9rem;
+    color: #aaa;
+    font-size: 0.95rem;
+    margin-top: 4px;
 }
 
-/* Контейнер с гифкой и таблицей */
 .table-visualization {
     flex: 1;
     min-height: 0;
     display: flex;
     flex-direction: column;
     background: rgba(0, 0, 0, 0.2);
-    border-radius: 16px;
+    border-radius: 24px;
     overflow: hidden;
+    border: 1px solid rgba(255, 215, 0, 0.1);
 }
 
 .gif-container {
-    height: 120px;
+    height: 130px;
     flex-shrink: 0;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.4);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -264,7 +273,7 @@ body {
 
 .table-gif {
     height: 100%;
-    width: auto;
+    width: 100%;
     object-fit: cover;
     opacity: 0.8;
 }
@@ -273,160 +282,138 @@ body {
     flex: 1;
     min-height: 0;
     overflow-y: auto;
-    padding: 15px;
+    padding: 18px;
 }
 
-/* Карточка колонки */
 .column-card {
     background: rgba(255, 255, 255, 0.02);
-    border-radius: 12px;
-    padding: 12px;
+    border-radius: 16px;
+    padding: 15px;
     margin-bottom: 10px;
-    border-left: 3px solid transparent;
+    border-left: 4px solid transparent;
     transition: all 0.2s;
 }
 
 .column-card:hover {
     background: rgba(255, 255, 255, 0.04);
+    border-left-color: #ffd700;
 }
 
 .column-header-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
 }
 
 .column-name-type {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
 }
 
 .column-name {
-    font-weight: 600;
+    font-weight: 700;
     color: #ffd700;
+    font-size: 1.1rem;
 }
 
 .column-type {
-    font-size: 0.8rem;
-    color: #888;
+    font-size: 0.85rem;
+    color: #aaa;
     background: rgba(255, 255, 255, 0.05);
-    padding: 2px 8px;
-    border-radius: 12px;
+    padding: 3px 12px;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .column-badges {
     display: flex;
-    gap: 5px;
+    gap: 6px;
+    flex-wrap: wrap;
 }
 
 .badge {
     font-size: 0.7rem;
-    padding: 2px 6px;
-    border-radius: 10px;
-    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
 }
 
-.badge.pk {
-    background: #ffd700;
-    color: #000;
-}
-
-.badge.fk {
-    background: #4ecdc4;
-    color: #000;
-}
-
-.badge.nn {
-    background: #ff6b6b;
-    color: #fff;
-}
-
-.badge.unq {
-    background: #9b59b6;
-    color: #fff;
-}
-
-.badge.chk {
-    background: #f39c12;
-    color: #000;
-}
-
-.badge.def {
-    background: #3498db;
-    color: #fff;
-}
+.badge.pk { background: #ffd700; color: #000; }
+.badge.fk { background: #4ecdc4; color: #000; }
+.badge.nn { background: #ff6b6b; color: #fff; }
+.badge.unq { background: #9b59b6; color: #fff; }
+.badge.chk { background: #f39c12; color: #000; }
+.badge.def { background: #3498db; color: #fff; }
 
 .column-constraints {
-    font-size: 0.8rem;
-    color: #666;
+    font-size: 0.85rem;
+    color: #888;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px dashed rgba(255, 255, 255, 0.05);
 }
 
-/* Правая колонка - все таблицы */
 .tables-grid {
     flex: 1;
     overflow-y: auto;
-    padding: 10px;
+    padding: 15px;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 12px;
     min-height: 0;
 }
 
 .table-preview-card {
     background: rgba(255, 255, 255, 0.02);
-    border-radius: 12px;
-    padding: 12px;
-    border-left: 3px solid;
+    border-radius: 18px;
+    padding: 15px;
+    border-left: 4px solid;
     transition: all 0.2s;
     flex-shrink: 0;
 }
 
-.table-preview-card.valid {
-    border-left-color: #44ff44;
-}
-
-.table-preview-card.invalid {
-    border-left-color: #ff4444;
-}
+.table-preview-card.valid { border-left-color: #44ff44; }
+.table-preview-card.invalid { border-left-color: #ff4444; }
 
 .preview-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 
 .preview-name {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-weight: 600;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 1rem;
 }
 
 .preview-score {
     background: #ffd700;
     color: #000;
-    padding: 2px 8px;
-    border-radius: 12px;
-    font-size: 0.8rem;
-    font-weight: 700;
+    padding: 3px 12px;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-weight: 800;
 }
 
 .preview-columns {
-    font-size: 0.8rem;
-    color: #888;
+    font-size: 0.9rem;
+    color: #aaa;
 }
 
 .preview-column {
     display: flex;
     justify-content: space-between;
-    padding: 3px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
 }
 
-/* Кастомные скроллы */
 .tables-list::-webkit-scrollbar,
 .table-schema::-webkit-scrollbar,
 .tables-grid::-webkit-scrollbar {
@@ -443,20 +430,11 @@ body {
 .table-schema::-webkit-scrollbar-thumb,
 .tables-grid::-webkit-scrollbar-thumb {
     background: rgba(255, 215, 0, 0.2);
-    border-radius: 2px;
+    border-radius: 4px;
 }
 
-/* Адаптация под высоту */
 @media (max-height: 800px) {
-    .gif-container {
-        height: 80px;
-    }
-    
-    .column-header {
-        padding: 10px;
-    }
-    
-    .table-mini-card {
-        padding: 8px;
-    }
+    .gif-container { height: 100px; }
+    .selected-table-info { padding: 12px 18px; }
+    .selected-table-name { font-size: 1.4rem; }
 }
