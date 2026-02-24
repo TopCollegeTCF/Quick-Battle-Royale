@@ -1,5 +1,4 @@
-// Конфигурация таблиц с гифками
-const TABLES_VISUAL = [
+const TABLES = [
     { id: 'clans', name: 'Clans', icon: '🏰', gif: 'clans.gif', desc: 'Кланы игроков' },
     { id: 'players', name: 'Players', icon: '👑', gif: 'players.gif', desc: 'Профили игроков' },
     { id: 'cards', name: 'Cards', icon: '🃏', gif: 'cards.gif', desc: 'Игровые карты' },
@@ -12,13 +11,17 @@ const TABLES_VISUAL = [
     { id: 'chests', name: 'Chests', icon: '📦', gif: 'chests.gif', desc: 'Сундуки' }
 ];
 
+const SCORES = {
+    column: 1, primary_key: 10, foreign_key: 8,
+    not_null: 5, unique: 5, check: 5, default: 3, type_match: 2
+};
+
 let currentTeam = null;
 let teamFiles = {};
 let currentTable = 'clans';
 let SQL = null;
 let db = null;
 
-// Инициализация
 window.addEventListener('load', async () => {
     currentTeam = localStorage.getItem('selectedTeam') || 'red';
     updateTeamUI();
@@ -29,11 +32,10 @@ window.addEventListener('load', async () => {
     await validateAllTables();
 });
 
-// Обновление UI команды
 function updateTeamUI() {
     const badge = document.querySelector('.team-badge');
-    const emoji = document.querySelector('.team-emoji');
-    const name = document.querySelector('.team-name');
+    const emoji = document.getElementById('teamEmoji');
+    const name = document.getElementById('teamName');
     
     if (currentTeam === 'red') {
         badge.classList.add('red-badge');
@@ -48,16 +50,14 @@ function updateTeamUI() {
     }
 }
 
-// Инициализация SQL.js
 async function initSQL() {
     SQL = await initSqlJs({
         locateFile: file => `https://sql.js.org/dist/${file}`
     });
 }
 
-// Загрузка файлов команды
 async function loadTeamFiles() {
-    for (const table of TABLES_VISUAL) {
+    for (const table of TABLES) {
         try {
             const response = await fetch(`teams/${currentTeam}/${table.id}.sql`);
             teamFiles[table.id] = await response.text();
@@ -67,12 +67,12 @@ async function loadTeamFiles() {
     }
 }
 
-// Отрисовка списка таблиц слева
 function renderTablesList() {
     const container = document.getElementById('tablesList');
+    if (!container) return;
     container.innerHTML = '';
     
-    TABLES_VISUAL.forEach(table => {
+    TABLES.forEach(table => {
         const item = document.createElement('div');
         item.className = `table-mini-card ${table.id === currentTable ? 'active' : ''}`;
         item.onclick = () => selectTable(table.id);
@@ -87,36 +87,37 @@ function renderTablesList() {
     });
 }
 
-// Выбор таблицы для отображения
 function selectTable(tableId) {
     currentTable = tableId;
     
-    // Подсветка активной
     document.querySelectorAll('.table-mini-card').forEach(c => c.classList.remove('active'));
     event?.currentTarget.classList.add('active');
     
-    // Обновление информации
-    const table = TABLES_VISUAL.find(t => t.id === tableId);
+    const table = TABLES.find(t => t.id === tableId);
     document.getElementById('selectedIcon').textContent = table.icon;
     document.getElementById('selectedName').textContent = table.name;
     document.getElementById('selectedDesc').textContent = table.desc;
-    document.getElementById('tableGif').src = `docs/${table.gif}`;
     
-    // Парсим и отображаем схему
+    const gifPath = `docs/${table.gif}`;
+    document.getElementById('tableGif').src = gifPath;
+    
     renderTableSchema(tableId);
 }
 
-// Отрисовка схемы таблицы
 function renderTableSchema(tableId) {
     const container = document.getElementById('tableSchema');
     const sql = teamFiles[tableId];
     
-    // Парсим CREATE TABLE
     const columns = parseCreateTable(sql, tableId);
     
     if (columns.length === 0) {
-        container.innerHTML = '<div style="color: #666; padding: 20px; text-align: center;">Нет данных о колонках</div>';
+        container.innerHTML = '<div style="color: #666; padding: 20px; text-align: center;">❌ Нет данных о колонках или ошибка в SQL</div>';
         return;
+    }
+    
+    // Показываем гифку только если есть колонки
+    if (columns.length >= 3) {
+        document.getElementById('gifContainer').style.display = 'flex';
     }
     
     container.innerHTML = '';
@@ -138,19 +139,14 @@ function renderTableSchema(tableId) {
                     <span class="column-name">${col.name}</span>
                     <span class="column-type">${col.type}</span>
                 </div>
-                <div class="column-badges">
-                    ${badges.join(' ')}
-                </div>
+                <div class="column-badges">${badges.join(' ')}</div>
             </div>
-            <div class="column-constraints">
-                ${col.constraints || ''}
-            </div>
+            <div class="column-constraints">${col.constraints || ''}</div>
         `;
         container.appendChild(card);
     });
 }
 
-// Парсинг CREATE TABLE
 function parseCreateTable(sql, tableName) {
     const columns = [];
     const regex = new RegExp(`CREATE\\s+TABLE\\s+${tableName}\\s*\\((.*?)\\)`, 'is');
@@ -159,13 +155,15 @@ function parseCreateTable(sql, tableName) {
     if (!match) return columns;
     
     const columnsText = match[1];
-    const lines = columnsText.split(',').filter(line => !line.toLowerCase().includes('foreign key'));
+    const lines = columnsText.split(',');
     
     lines.forEach(line => {
+        if (line.toLowerCase().includes('foreign key')) return;
+        
         const parts = line.trim().split(/\s+/);
         if (parts.length < 2) return;
         
-        const name = parts[0].toLowerCase();
+        const name = parts[0].toLowerCase().replace(/[`\[\]]/g, '');
         const type = parts[1].toUpperCase();
         const constraints = parts.slice(2).join(' ').toUpperCase();
         
@@ -185,71 +183,104 @@ function parseCreateTable(sql, tableName) {
     return columns;
 }
 
-// Проверка всех таблиц
 async function validateAllTables() {
     db = new SQL.Database();
     db.run("PRAGMA foreign_keys = ON;");
     
     let totalScore = 0;
+    const grid = document.getElementById('tablesGrid');
+    grid.innerHTML = '';
     
-    for (const table of TABLES_VISUAL) {
+    for (const table of TABLES) {
         try {
             db.run(teamFiles[table.id]);
             
-            // Получаем информацию о таблице
             const tableInfo = db.exec(`PRAGMA table_info(${table.id});`);
             const columnCount = tableInfo.length ? tableInfo[0].values.length : 0;
             
-            // Обновляем статус
-            document.getElementById(`status-${table.id}`).className = `table-mini-status valid`;
+            const score = calculateTableScore(teamFiles[table.id], table.id);
+            totalScore += score;
             
-            // Считаем очки (просто для демо)
-            totalScore += columnCount * 2;
+            document.getElementById(`status-${table.id}`).className = 'table-mini-status valid';
             
-            // Добавляем в правую колонку
-            addToRightColumn(table, columnCount, true);
+            const card = document.createElement('div');
+            card.className = `table-preview-card valid`;
+            card.innerHTML = `
+                <div class="preview-header">
+                    <span class="preview-name">
+                        <span>${table.icon}</span>
+                        <span>${table.name}</span>
+                    </span>
+                    <span class="preview-score">${score}</span>
+                </div>
+                <div class="preview-columns">
+                    <div class="preview-column">
+                        <span>Колонок:</span>
+                        <span>${columnCount}</span>
+                    </div>
+                    <div class="preview-column">
+                        <span>Статус:</span>
+                        <span style="color: #44ff44">✓ Работает</span>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
             
         } catch (e) {
-            document.getElementById(`status-${table.id}`).className = `table-mini-status`;
-            addToRightColumn(table, 0, false);
+            document.getElementById(`status-${table.id}`).className = 'table-mini-status';
+            
+            const card = document.createElement('div');
+            card.className = `table-preview-card invalid`;
+            card.innerHTML = `
+                <div class="preview-header">
+                    <span class="preview-name">
+                        <span>${table.icon}</span>
+                        <span>${table.name}</span>
+                    </span>
+                    <span class="preview-score">0</span>
+                </div>
+                <div class="preview-columns">
+                    <div class="preview-column">
+                        <span>Колонок:</span>
+                        <span>0</span>
+                    </div>
+                    <div class="preview-column">
+                        <span>Статус:</span>
+                        <span style="color: #ff4444">✗ Ошибка</span>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
         }
     }
     
     document.getElementById('totalTrophies').textContent = totalScore;
 }
 
-// Добавление в правую колонку
-function addToRightColumn(table, columnCount, valid) {
-    const container = document.getElementById('tablesGrid');
+function calculateTableScore(sql, tableId) {
+    let score = 0;
+    const sqlLower = sql.toLowerCase();
+    const columns = parseCreateTable(sql, tableId);
     
-    const card = document.createElement('div');
-    card.className = `table-preview-card ${valid ? 'valid' : 'invalid'}`;
-    card.innerHTML = `
-        <div class="preview-header">
-            <span class="preview-name">
-                <span>${table.icon}</span>
-                <span>${table.name}</span>
-            </span>
-            <span class="preview-score">${columnCount * 2}</span>
-        </div>
-        <div class="preview-columns">
-            <div class="preview-column">
-                <span>Колонок:</span>
-                <span>${columnCount}</span>
-            </div>
-            <div class="preview-column">
-                <span>Статус:</span>
-                <span style="color: ${valid ? '#44ff44' : '#ff4444'}">
-                    ${valid ? '✓' : '✗'}
-                </span>
-            </div>
-        </div>
-    `;
+    columns.forEach(col => {
+        score += SCORES.column;
+        
+        if (col.type === 'INTEGER' || col.type === 'TEXT' || 
+            col.type === 'DATETIME' || col.type === 'BOOLEAN') {
+            score += SCORES.type_match;
+        }
+        
+        if (col.pk) score += SCORES.primary_key;
+        if (col.fk) score += SCORES.foreign_key;
+        if (col.nn) score += SCORES.not_null;
+        if (col.unq) score += SCORES.unique;
+        if (col.chk) score += SCORES.check;
+        if (col.def) score += SCORES.default;
+    });
     
-    container.appendChild(card);
+    return score;
 }
 
-// Назад
 function goBack() {
     window.location.href = 'index.html';
 }
