@@ -1,7 +1,7 @@
 ### 🏰 `Clans` (Кланы)
 | Поле | Тип | Описание |
 |------|-----|----------|
-| `id` | `INTEGER` 🏷️ | примарикей |
-| `name` | `TEXT` 📛 | нотнулл |
-| `trophies` | `INTEGER` 🏆 | деф = 0 |
-| `max_members` | `INTEGER` 👥 | деф = 50 |
+| `id` | `INTEGER` 🏷️ | 1 |
+| `name` | `TEXT` 📛 | 2 |
+| `trophies` | `INTEGER` 🏆 | 3 |
+| `max_members` | `INTEGER` 👥 | 4 |
