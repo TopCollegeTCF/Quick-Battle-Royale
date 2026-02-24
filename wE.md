@@ -2,6 +2,6 @@
 | Поле | Тип | Описание |
 |------|-----|----------|
 | `id` | `INTEGER` 🏷️ | 1 |
-| `name` | `TEXT` 📛 | 2 |
-| `trophies` | `INTEGER` 🏆 | 3 |
-| `max_members` | `INTEGER` 👥 | 4 |
+| `name` | `TEXT` 📛 | ДаНил кОбНАсеНко22822  |
+| `trophies` | `INTEGER` 🏆 | 7777 |
+| `max_members` | `INTEGER` 👥 | 2 |
