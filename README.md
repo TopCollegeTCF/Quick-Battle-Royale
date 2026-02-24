@@ -5,7 +5,23 @@
 
 
 2 Код - Player, item:![i (1)](https://github.com/user-attachments/assets/3e30c5a1-cc92-4c9c-a3c4-fffd32d3dfc1)
+...
+from dataclasses import dataclass
+from datetime import datetime
+from typing import Optional
 
+from sqlalchemy import String, Integer, BigInteger, DateTime, func
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from datetime import datetime
+from typing import Annotated, Optional
+
+from sqlalchemy import String, Integer, Float, Text, Boolean, DateTime, func
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
+
+
+class Base(DeclarativeBase):
+    pass
+...(Очень сократил)
 
 
 
