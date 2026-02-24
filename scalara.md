@@ -13,7 +13,7 @@ gold INTEGER
 );
 
 CREATE TABLE IF NOT EXIST cards(
-varvar VATCHAR,
+varvar VARCHAR,
 bochka VARCAHR,
 brevno VARCAHR
 )
