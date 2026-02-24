@@ -9,7 +9,7 @@
 [![Итерация 1 - Готова](https://img.shields.io/badge/Сложность-Разработка_на_скорость-04a7cc?style=for-the-badge)](##)
 
 <div align="center">
-    <img src="docs/clash-royale-clash-of-clans.gif" width="500" height="300" />
+    <img src="docs/clideo_editor_515a55b346194e34ac964044413f171d.gif" width="500" height="300" />
 </div>
 
 
