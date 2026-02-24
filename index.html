@@ -3,134 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clash Royale SQL Arena - Выбор команды</title>
+    <title>Clash Royale SQL Arena</title>
     
     <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <!-- Styles -->
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="choose-team">
-    <!-- Анимированный фон -->
-    <div class="sparkles"></div>
+<body>
+    <!-- Фоновый эффект (приглушенный) -->
+    <div class="bg-effect"></div>
     
-    <div class="choose-container">
-        <h1 class="glitch-title" data-text="CLASH ROYALE SQL ARENA">CLASH ROYALE SQL ARENA</h1>
+    <main class="main-container">
+        <!-- Заголовок -->
+        <header class="header">
+            <h1 class="title">
+                <span class="title-sql">SQL</span>
+                <span class="title-arena">ARENA</span>
+            </h1>
+            <p class="subtitle">Clash Royale • Проектирование баз данных</p>
+        </header>
         
-        <div class="team-cards">
+        <!-- Карточки команд -->
+        <div class="teams-container">
             <!-- Красная команда -->
-            <div class="team-card red-team" onclick="selectTeam('red')">
-                <div class="team-glow"></div>
-                <div class="team-emoji">🔴</div>
-                <h2>КРАСНАЯ БАШНЯ</h2>
-                <div class="team-stats" id="redStats">
-                    <div class="stat"><span class="stat-label">Кланы:</span> <span class="stat-value" id="redClansStat">0</span></div>
-                    <div class="stat"><span class="stat-label">Игроки:</span> <span class="stat-value" id="redPlayersStat">0</span></div>
-                    <div class="stat"><span class="stat-label">Карты:</span> <span class="stat-value" id="redCardsStat">0</span></div>
-                    <div class="stat"><span class="stat-label">Битвы:</span> <span class="stat-value" id="redBattlesStat">0</span></div>
+            <div class="team-card red" id="redTeamCard">
+                <div class="team-header">
+                    <span class="team-emoji">🔴</span>
+                    <h2>Красная башня</h2>
+                    <span class="team-score" id="redScore">0</span>
                 </div>
-                <div class="team-total" id="redTotal">🏆 0</div>
-                <button class="choose-btn red" onclick="event.stopPropagation(); enterBattle('red')">
-                    <i class="fas fa-sword"></i> ВОЙТИ В БИТВУ
+                
+                <div class="tables-list" id="redTables">
+                    <!-- Генерируется JS -->
+                </div>
+                
+                <button class="enter-btn red" onclick="enterBattle('red')">
+                    <i class="fas fa-sword"></i>
+                    Войти в битву
                 </button>
             </div>
             
             <!-- Синяя команда -->
-            <div class="team-card blue-team" onclick="selectTeam('blue')">
-                <div class="team-glow"></div>
-                <div class="team-emoji">🔵</div>
-                <h2>СИНЯЯ БАШНЯ</h2>
-                <div class="team-stats" id="blueStats">
-                    <div class="stat"><span class="stat-label">Кланы:</span> <span class="stat-value" id="blueClansStat">0</span></div>
-                    <div class="stat"><span class="stat-label">Игроки:</span> <span class="stat-value" id="bluePlayersStat">0</span></div>
-                    <div class="stat"><span class="stat-label">Карты:</span> <span class="stat-value" id="blueCardsStat">0</span></div>
-                    <div class="stat"><span class="stat-label">Битвы:</span> <span class="stat-value" id="blueBattlesStat">0</span></div>
+            <div class="team-card blue" id="blueTeamCard">
+                <div class="team-header">
+                    <span class="team-emoji">🔵</span>
+                    <h2>Синяя башня</h2>
+                    <span class="team-score" id="blueScore">0</span>
                 </div>
-                <div class="team-total" id="blueTotal">🏆 0</div>
-                <button class="choose-btn blue" onclick="event.stopPropagation(); enterBattle('blue')">
-                    <i class="fas fa-sword"></i> ВОЙТИ В БИТВУ
+                
+                <div class="tables-list" id="blueTables">
+                    <!-- Генерируется JS -->
+                </div>
+                
+                <button class="enter-btn blue" onclick="enterBattle('blue')">
+                    <i class="fas fa-sword"></i>
+                    Войти в битву
                 </button>
             </div>
         </div>
         
-        <div class="arena-info">
-            <div class="info-item">
-                <i class="fas fa-database"></i>
-                <span>Автоматическая проверка SQL</span>
+        <!-- Легенда (подсказки снизу) -->
+        <footer class="legend">
+            <div class="legend-item">
+                <span class="legend-dot pk"></span>
+                <span>Первичный ключ</span>
             </div>
-            <div class="info-item">
-                <i class="fas fa-trophy"></i>
-                <span>1 кубок = 1 правильная колонка</span>
+            <div class="legend-item">
+                <span class="legend-dot fk"></span>
+                <span>Внешний ключ</span>
             </div>
-            <div class="info-item">
-                <i class="fas fa-users"></i>
-                <span>Соревнование двух команд</span>
+            <div class="legend-item">
+                <span class="legend-dot nn"></span>
+                <span>NOT NULL</span>
             </div>
-        </div>
-    </div>
+            <div class="legend-item">
+                <span class="legend-dot unq"></span>
+                <span>UNIQUE</span>
+            </div>
+        </footer>
+    </main>
     
     <script src="app.js"></script>
-    <script>
-        // Загружаем статистику при открытии
-        window.addEventListener('load', () => {
-            loadTeamStats('red');
-            loadTeamStats('blue');
-        });
-        
-        function selectTeam(team) {
-            // Анимация выбора
-            document.querySelectorAll('.team-card').forEach(c => c.classList.remove('selected'));
-            document.querySelector(`.${team}-team`).classList.add('selected');
-        }
-        
-        function enterBattle(team) {
-            // Сохраняем выбранную команду и переходим на арену
-            localStorage.setItem('selectedTeam', team);
-            window.location.href = 'battle.html';
-        }
-        
-        async function loadTeamStats(team) {
-            const files = ['clans', 'players', 'cards', 'battles'];
-            
-            for (const file of files) {
-                try {
-                    const response = await fetch(`teams/${team}/${file}.sql`);
-                    const content = await response.text();
-                    
-                    // Простой подсчет колонок (будет улучшен в battle.js)
-                    const columns = countColumns(content);
-                    document.getElementById(`${team}${file.charAt(0).toUpperCase() + file.slice(1)}Stat`).textContent = columns;
-                    
-                } catch (error) {
-                    document.getElementById(`${team}${file.charAt(0).toUpperCase() + file.slice(1)}Stat`).textContent = '0';
-                }
-            }
-            
-            updateTeamTotal(team);
-        }
-        
-        function countColumns(sql) {
-            // Временная функция для превью
-            const match = sql.match(/CREATE TABLE.*?\((.*?)\)/s);
-            if (match) {
-                const columns = match[1].split(',').filter(col => 
-                    !col.trim().toLowerCase().startsWith('foreign key')
-                );
-                return columns.length;
-            }
-            return 0;
-        }
-        
-        function updateTeamTotal(team) {
-            let total = 0;
-            const stats = document.querySelectorAll(`#${team}Stats .stat-value`);
-            stats.forEach(stat => {
-                total += parseInt(stat.textContent) || 0;
-            });
-            document.getElementById(`${team}Total`).innerHTML = `🏆 ${total}`;
-        }
-    </script>
 </body>
 </html>
