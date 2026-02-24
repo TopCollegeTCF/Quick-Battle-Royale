@@ -1,6 +1,0 @@
-CREATE TABLE Clans (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    trophies INTEGER DEFAULT 0,
-    max_members INTEGER DEFAULT 50
-);
