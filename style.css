@@ -584,3 +584,230 @@ body {
         order: 1;
     }
 }
+
+/* Стили для страницы выбора команды */
+.choose-team {
+    background: linear-gradient(135deg, #0a0a1f 0%, #1a1a3f 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.choose-container {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    width: 90%;
+    padding: 40px;
+}
+
+.glitch-title {
+    font-size: 4rem;
+    font-weight: 800;
+    text-align: center;
+    color: #ffd700;
+    text-shadow: 3px 3px 0 #ff4444, -3px -3px 0 #4444ff;
+    margin-bottom: 50px;
+    animation: glitch 3s infinite;
+    position: relative;
+}
+
+@keyframes glitch {
+    0%, 100% { transform: skew(0deg, 0deg); opacity: 1; }
+    95% { transform: skew(0deg, 0deg); opacity: 1; }
+    96% { transform: skew(5deg, 2deg); opacity: 0.8; }
+    97% { transform: skew(-5deg, -2deg); opacity: 0.9; }
+    98% { transform: skew(3deg, 1deg); opacity: 0.8; }
+}
+
+.team-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    margin-bottom: 50px;
+}
+
+.team-card {
+    position: relative;
+    padding: 40px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s;
+    overflow: hidden;
+    border: 3px solid transparent;
+}
+
+.team-card:hover {
+    transform: translateY(-10px) scale(1.02);
+}
+
+.team-card.selected {
+    border-color: #ffd700;
+    box-shadow: 0 0 50px #ffd700;
+}
+
+.team-glow {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    animation: rotate 10s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.red-team {
+    background: linear-gradient(135deg, #330000, #660000);
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
+}
+
+.blue-team {
+    background: linear-gradient(135deg, #000033, #000066);
+    box-shadow: 0 0 30px rgba(0, 0, 255, 0.3);
+}
+
+.team-emoji {
+    font-size: 6rem;
+    text-align: center;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 0 20px currentColor);
+}
+
+.team-card h2 {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 800;
+}
+
+.red-team h2 {
+    color: #ff6b6b;
+    text-shadow: 0 0 20px #ff4444;
+}
+
+.blue-team h2 {
+    color: #6b6bff;
+    text-shadow: 0 0 20px #4444ff;
+}
+
+.team-stats {
+    margin-bottom: 30px;
+}
+
+.stat {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 1.2rem;
+}
+
+.stat-label {
+    opacity: 0.8;
+}
+
+.stat-value {
+    font-weight: 800;
+    color: #ffd700;
+}
+
+.team-total {
+    font-size: 3rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #ffd700;
+    text-shadow: 0 0 30px #ffd700;
+}
+
+.choose-btn {
+    width: 100%;
+    padding: 20px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    z-index: 2;
+}
+
+.choose-btn.red {
+    background: linear-gradient(135deg, #ff4444, #ff0000);
+    box-shadow: 0 0 30px #ff4444;
+}
+
+.choose-btn.blue {
+    background: linear-gradient(135deg, #4444ff, #0000ff);
+    box-shadow: 0 0 30px #4444ff;
+}
+
+.choose-btn:hover {
+    transform: scale(1.05);
+    filter: brightness(1.2);
+}
+
+.arena-info {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 50px;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1rem;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 30px;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.info-item i {
+    color: #ffd700;
+    font-size: 1.3rem;
+}
+
+/* Анимации */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .team-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .glitch-title {
+        font-size: 2.5rem;
+    }
+    
+    .arena-info {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
