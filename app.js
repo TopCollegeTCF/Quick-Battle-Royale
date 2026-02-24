@@ -183,3 +183,77 @@ function enterBattle(team) {
     localStorage.setItem('selectedTeam', team);
     window.location.href = 'battle.html';
 }
+
+// Добавьте в конец функции renderTablesList в app.js
+
+function renderTablesList(team) {
+    const container = document.getElementById(`${team}Tables`);
+    if (!container) return;
+    container.innerHTML = '';
+    
+    TABLES_CONFIG.forEach(table => {
+        const item = document.createElement('div');
+        item.className = 'table-item';
+        item.setAttribute('data-table', table.id);
+        
+        // Форматируем подсказку
+        const tooltipHtml = table.tooltip
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\n/g, '<br>');
+        
+        item.innerHTML = `
+            <span class="table-icon">${table.icon}</span>
+            <div class="table-info">
+                <div class="table-name">${table.name}</div>
+                <div class="table-desc">${table.desc}</div>
+            </div>
+            <div class="table-stats">
+                <span class="table-preview" id="${team}-${table.id}-cols">0</span>
+            </div>
+            <div class="tooltip" id="tooltip-${team}-${table.id}">
+                ${tooltipHtml}
+                <em>Наведи на другие таблицы</em>
+            </div>
+        `;
+        
+        container.appendChild(item);
+    });
+    
+    // Добавляем обработчики для динамического позиционирования подсказок
+    addTooltipHandlers(team);
+}
+
+// Новая функция для позиционирования подсказок
+function addTooltipHandlers(team) {
+    document.querySelectorAll(`#${team}Tables .table-item`).forEach(item => {
+        const tooltip = item.querySelector('.tooltip');
+        
+        item.addEventListener('mouseenter', (e) => {
+            const rect = item.getBoundingClientRect();
+            const tooltipRect = tooltip.getBoundingClientRect();
+            
+            // Позиционируем подсказку над элементом
+            let top = rect.top - tooltipRect.height - 10;
+            let left = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
+            
+            // Проверяем, не выходит ли за левый край
+            if (left < 10) left = 10;
+            
+            // Проверяем, не выходит ли за правый край
+            if (left + tooltipRect.width > window.innerWidth - 10) {
+                left = window.innerWidth - tooltipRect.width - 10;
+            }
+            
+            // Если не помещается сверху, показываем снизу
+            if (top < 10) {
+                top = rect.bottom + 10;
+            }
+            
+            tooltip.style.position = 'fixed';
+            tooltip.style.top = top + 'px';
+            tooltip.style.left = left + 'px';
+            tooltip.style.bottom = 'auto';
+            tooltip.style.right = 'auto';
+        });
+    });
+}
