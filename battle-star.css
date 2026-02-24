@@ -1,0 +1,560 @@
+/* Стили для страницы битвы */
+.battle-arena {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0a0a1f 0%, #1a1a3f 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.battle-sparkles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 20% 50%, rgba(255, 0, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(0, 0, 255, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+    animation: sparkle-battle 4s infinite;
+}
+
+@keyframes sparkle-battle {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.8; }
+}
+
+.battle-header {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid #ffd700;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+}
+
+.back-btn {
+    background: linear-gradient(135deg, #666, #333);
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 1px solid #ffd700;
+}
+
+.back-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px #ffd700;
+}
+
+.team-badge {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 2rem;
+    font-weight: 800;
+    padding: 10px 30px;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.1));
+    border-radius: 50px;
+    border: 2px solid #ffd700;
+}
+
+.team-badge.red-badge {
+    text-shadow: 0 0 20px #ff4444;
+}
+
+.team-badge.blue-badge {
+    text-shadow: 0 0 20px #4444ff;
+}
+
+.battle-main {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 300px 1fr 300px;
+    gap: 20px;
+    padding: 20px;
+    max-width: 1800px;
+    margin: 0 auto;
+}
+
+/* SQL колонка */
+.sql-column {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 20px;
+    border: 2px solid #ffd700;
+}
+
+.sql-files-list {
+    margin: 20px 0;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.sql-file-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-left: 5px solid;
+    transition: all 0.3s;
+}
+
+.sql-file-card:hover {
+    transform: translateX(5px);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.sql-file-card.clans { border-left-color: #ffd700; }
+.sql-file-card.players { border-left-color: #4ecdc4; }
+.sql-file-card.cards { border-left-color: #ffe66d; }
+.sql-file-card.battles { border-left-color: #ff6b6b; }
+
+.file-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.file-name {
+    font-weight: 800;
+    font-size: 1.1rem;
+}
+
+.file-status {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+}
+
+.file-status.valid {
+    background: #44ff44;
+    box-shadow: 0 0 15px #44ff44;
+    animation: pulse-valid 1.5s infinite;
+}
+
+@keyframes pulse-valid {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.file-status.invalid {
+    background: #ff4444;
+}
+
+.file-preview {
+    font-family: 'Monaco', monospace;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+    background: rgba(0, 0, 0, 0.3);
+    padding: 8px;
+    border-radius: 6px;
+    white-space: pre-wrap;
+    max-height: 100px;
+    overflow-y: auto;
+}
+
+.analyze-btn {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #ffd700, #ffa500);
+    border: none;
+    border-radius: 30px;
+    color: #1a1a2e;
+    font-weight: 800;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 20px;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+}
+
+.analyze-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.analyze-btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.analyze-btn:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 30px #ffd700;
+}
+
+/* Колонка визуализации */
+.visualization-column {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 20px;
+    border: 2px solid #ffd700;
+}
+
+.viz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.viz-tabs {
+    display: flex;
+    gap: 10px;
+}
+
+.viz-tab {
+    padding: 8px 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 20px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: 600;
+}
+
+.viz-tab:hover {
+    background: rgba(255, 215, 0, 0.3);
+}
+
+.viz-tab.active {
+    background: #ffd700;
+    color: #1a1a2e;
+    box-shadow: 0 0 20px #ffd700;
+}
+
+.viz-content {
+    min-height: 400px;
+    margin-bottom: 20px;
+}
+
+.viz-pane {
+    display: none;
+}
+
+.viz-pane.active {
+    display: block;
+    animation: fadeIn 0.5s;
+}
+
+/* Сетка таблиц */
+.tables-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    max-height: 500px;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.table-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 15px;
+    border-top: 3px solid;
+    transition: all 0.3s;
+}
+
+.table-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.table-card.valid {
+    border-top-color: #44ff44;
+    box-shadow: 0 0 20px rgba(68, 255, 68, 0.3);
+}
+
+.table-card.invalid {
+    border-top-color: #ff4444;
+    opacity: 0.7;
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.table-name {
+    font-weight: 800;
+    font-size: 1.2rem;
+}
+
+.table-score {
+    background: #ffd700;
+    color: #1a1a2e;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 800;
+}
+
+.table-columns {
+    font-size: 0.9rem;
+}
+
+.column-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.column-name {
+    font-family: 'Monaco', monospace;
+}
+
+.column-badge {
+    font-size: 0.8rem;
+    padding: 2px 6px;
+    border-radius: 10px;
+}
+
+.column-badge.pk {
+    background: #ffd700;
+    color: #1a1a2e;
+}
+
+.column-badge.fk {
+    background: #4ecdc4;
+    color: #1a1a2e;
+}
+
+.column-badge.notnull {
+    background: #ff6b6b;
+    color: white;
+}
+
+/* Граф */
+#graphContainer {
+    height: 500px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+/* Данные */
+.data-tables {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.data-table {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.data-table h4 {
+    color: #ffd700;
+    margin-bottom: 10px;
+}
+
+.data-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table th {
+    background: rgba(255, 215, 0, 0.2);
+    padding: 8px;
+    text-align: left;
+    font-weight: 600;
+}
+
+.data-table td {
+    padding: 6px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Лог проверки */
+.validation-log {
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 15px;
+    margin-top: 20px;
+    border: 1px solid #ffd700;
+}
+
+.log-header {
+    padding: 10px 15px;
+    background: rgba(255, 215, 0, 0.2);
+    border-radius: 15px 15px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.clear-log {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.3s;
+}
+
+.clear-log:hover {
+    opacity: 1;
+}
+
+.log-messages {
+    padding: 15px;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.log-entry {
+    padding: 5px;
+    margin: 5px 0;
+    border-left: 3px solid;
+    animation: slideIn 0.3s;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.log-entry.success {
+    border-color: #44ff44;
+    color: #aaffaa;
+}
+
+.log-entry.error {
+    border-color: #ff4444;
+    color: #ffaaaa;
+}
+
+.log-entry.info {
+    border-color: #ffd700;
+    color: #ffffaa;
+}
+
+/* Колонка результатов */
+.results-column {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 20px;
+    border: 2px solid #ffd700;
+}
+
+.tables-results {
+    margin: 20px 0;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.result-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
+    transition: all 0.3s;
+}
+
+.result-card.valid {
+    border-left: 5px solid #44ff44;
+}
+
+.result-card.invalid {
+    border-left: 5px solid #ff4444;
+}
+
+.result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.result-name {
+    font-weight: 800;
+    font-size: 1.1rem;
+}
+
+.result-score {
+    background: #ffd700;
+    color: #1a1a2e;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 800;
+}
+
+.result-details {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.result-detail {
+    display: flex;
+    justify-content: space-between;
+    padding: 3px 0;
+}
+
+.total-score {
+    text-align: center;
+    margin-top: 20px;
+    padding: 20px;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.1));
+    border-radius: 15px;
+    border: 2px solid #ffd700;
+}
+
+.total-label {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.total-value {
+    font-size: 4rem;
+    font-weight: 800;
+    color: #ffd700;
+    text-shadow: 0 0 30px #ffd700;
+    animation: pulse-score 2s infinite;
+}
+
+@keyframes pulse-score {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+/* Адаптивность */
+@media (max-width: 1200px) {
+    .battle-main {
+        grid-template-columns: 1fr;
+    }
+}
