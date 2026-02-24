@@ -1,560 +1,462 @@
-/* Стили для страницы битвы */
-.battle-arena {
-    min-height: 100vh;
-    background: linear-gradient(135deg, #0a0a1f 0%, #1a1a3f 100%);
+/* Стили для страницы битвы (без скролла) */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: #0a0a14;
+    color: #e0e0e0;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Основной контейнер на всю высоту */
+.battle-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(135deg, #0a0a14 0%, #12121f 100%);
     position: relative;
     overflow: hidden;
 }
 
-.battle-sparkles {
+/* Фоновые эффекты (очень приглушенные) */
+.battle-bg {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at 20% 50%, rgba(255, 0, 0, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 50%, rgba(0, 0, 255, 0.1) 0%, transparent 50%);
+    background: radial-gradient(circle at 20% 30%, rgba(100, 30, 30, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(30, 30, 100, 0.1) 0%, transparent 40%);
     pointer-events: none;
     z-index: 0;
-    animation: sparkle-battle 4s infinite;
 }
 
-@keyframes sparkle-battle {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 0.8; }
-}
-
+/* Хедер фиксированной высоты */
 .battle-header {
-    position: relative;
-    z-index: 1;
+    height: 70px;
+    flex-shrink: 0;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 20px 40px;
-    background: rgba(0, 0, 0, 0.7);
+    justify-content: space-between;
+    padding: 0 30px;
+    background: rgba(10, 10, 20, 0.8);
     backdrop-filter: blur(10px);
-    border-bottom: 2px solid #ffd700;
-    box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+    border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+    position: relative;
+    z-index: 2;
 }
 
 .back-btn {
-    background: linear-gradient(135deg, #666, #333);
-    border: none;
-    color: white;
-    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    color: #e0e0e0;
+    padding: 8px 20px;
     border-radius: 30px;
-    font-size: 1rem;
-    font-weight: 600;
+    font-size: 0.9rem;
     cursor: pointer;
-    transition: all 0.3s;
-    border: 1px solid #ffd700;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .back-btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 20px #ffd700;
+    border-color: #ffd700;
+    color: #ffd700;
+}
+
+.team-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
 .team-badge {
     display: flex;
     align-items: center;
-    gap: 15px;
-    font-size: 2rem;
-    font-weight: 800;
-    padding: 10px 30px;
-    background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.1));
-    border-radius: 50px;
-    border: 2px solid #ffd700;
+    gap: 10px;
+    padding: 5px 20px;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 215, 0, 0.2);
 }
 
-.team-badge.red-badge {
-    text-shadow: 0 0 20px #ff4444;
+.team-badge.red-badge .team-emoji {
+    color: #ff6b6b;
 }
 
-.team-badge.blue-badge {
-    text-shadow: 0 0 20px #4444ff;
+.team-badge.blue-badge .team-emoji {
+    color: #6b6bff;
 }
 
-.battle-main {
-    position: relative;
-    z-index: 1;
-    display: grid;
-    grid-template-columns: 300px 1fr 300px;
-    gap: 20px;
-    padding: 20px;
-    max-width: 1800px;
-    margin: 0 auto;
-}
-
-/* SQL колонка */
-.sql-column {
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    padding: 20px;
-    border: 2px solid #ffd700;
-}
-
-.sql-files-list {
-    margin: 20px 0;
-    max-height: 500px;
-    overflow-y: auto;
-}
-
-.sql-file-card {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 12px;
-    padding: 15px;
-    margin-bottom: 15px;
-    border-left: 5px solid;
-    transition: all 0.3s;
-}
-
-.sql-file-card:hover {
-    transform: translateX(5px);
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.sql-file-card.clans { border-left-color: #ffd700; }
-.sql-file-card.players { border-left-color: #4ecdc4; }
-.sql-file-card.cards { border-left-color: #ffe66d; }
-.sql-file-card.battles { border-left-color: #ff6b6b; }
-
-.file-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.file-name {
-    font-weight: 800;
+.team-name {
+    font-weight: 600;
     font-size: 1.1rem;
 }
 
-.file-status {
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
+.trophy-counter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #ffd700;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
 }
 
-.file-status.valid {
-    background: #44ff44;
-    box-shadow: 0 0 15px #44ff44;
-    animation: pulse-valid 1.5s infinite;
-}
-
-@keyframes pulse-valid {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
-}
-
-.file-status.invalid {
-    background: #ff4444;
-}
-
-.file-preview {
-    font-family: 'Monaco', monospace;
-    font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.7);
-    background: rgba(0, 0, 0, 0.3);
-    padding: 8px;
-    border-radius: 6px;
-    white-space: pre-wrap;
-    max-height: 100px;
-    overflow-y: auto;
-}
-
-.analyze-btn {
-    width: 100%;
+/* Основной контент - занимает всё оставшееся место */
+.battle-content {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 300px 1fr 300px;
+    gap: 15px;
     padding: 15px;
-    background: linear-gradient(135deg, #ffd700, #ffa500);
-    border: none;
-    border-radius: 30px;
-    color: #1a1a2e;
-    font-weight: 800;
-    font-size: 1.2rem;
-    cursor: pointer;
-    transition: all 0.3s;
-    margin-top: 20px;
-    text-transform: uppercase;
     position: relative;
+    z-index: 1;
+}
+
+/* Общий стиль для колонок */
+.column {
+    background: rgba(15, 15, 25, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 215, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
     overflow: hidden;
 }
 
-.analyze-btn::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
+.column-header {
+    padding: 15px;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+    font-weight: 600;
+    color: #ffd700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.column-header i {
+    font-size: 1.1rem;
+}
+
+/* Левая колонка - список таблиц */
+.tables-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+    min-height: 0;
+}
+
+.table-mini-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.02);
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+}
+
+.table-mini-card:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 215, 0, 0.2);
+}
+
+.table-mini-card.active {
+    background: rgba(255, 215, 0, 0.05);
+    border-color: #ffd700;
+}
+
+.table-mini-icon {
+    font-size: 1.3rem;
+    min-width: 30px;
+    text-align: center;
+}
+
+.table-mini-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.table-mini-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.table-mini-status {
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.5);
-    transform: translate(-50%, -50%);
-    transition: width 0.6s, height 0.6s;
+    background: #444;
 }
 
-.analyze-btn:hover::before {
-    width: 300px;
-    height: 300px;
+.table-mini-status.valid {
+    background: #44ff44;
+    box-shadow: 0 0 10px #44ff44;
 }
 
-.analyze-btn:hover {
-    transform: scale(1.02);
-    box-shadow: 0 0 30px #ffd700;
+/* Центральная колонка - визуализация */
+.visualization-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    padding: 15px;
 }
 
-/* Колонка визуализации */
-.visualization-column {
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    padding: 20px;
-    border: 2px solid #ffd700;
+.selected-table-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+    flex-shrink: 0;
 }
 
-.viz-header {
+.selected-table-icon {
+    font-size: 3rem;
+    line-height: 1;
+}
+
+.selected-table-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #ffd700;
+}
+
+.selected-table-desc {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+/* Контейнер с гифкой и таблицей */
+.table-visualization {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.gif-container {
+    height: 120px;
+    flex-shrink: 0;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+    overflow: hidden;
+}
+
+.table-gif {
+    height: 100%;
+    width: auto;
+    object-fit: cover;
+    opacity: 0.8;
+}
+
+.table-schema {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 15px;
+}
+
+/* Карточка колонки */
+.column-card {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-left: 3px solid transparent;
+    transition: all 0.2s;
+}
+
+.column-card:hover {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.column-header-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 8px;
 }
 
-.viz-tabs {
+.column-name-type {
     display: flex;
+    align-items: center;
     gap: 10px;
 }
 
-.viz-tab {
-    padding: 8px 15px;
-    background: rgba(255, 255, 255, 0.1);
-    border: none;
-    border-radius: 20px;
-    color: white;
-    cursor: pointer;
-    transition: all 0.3s;
-    font-weight: 600;
-}
-
-.viz-tab:hover {
-    background: rgba(255, 215, 0, 0.3);
-}
-
-.viz-tab.active {
-    background: #ffd700;
-    color: #1a1a2e;
-    box-shadow: 0 0 20px #ffd700;
-}
-
-.viz-content {
-    min-height: 400px;
-    margin-bottom: 20px;
-}
-
-.viz-pane {
-    display: none;
-}
-
-.viz-pane.active {
-    display: block;
-    animation: fadeIn 0.5s;
-}
-
-/* Сетка таблиц */
-.tables-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    max-height: 500px;
-    overflow-y: auto;
-    padding: 10px;
-}
-
-.table-card {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 15px;
-    padding: 15px;
-    border-top: 3px solid;
-    transition: all 0.3s;
-}
-
-.table-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-}
-
-.table-card.valid {
-    border-top-color: #44ff44;
-    box-shadow: 0 0 20px rgba(68, 255, 68, 0.3);
-}
-
-.table-card.invalid {
-    border-top-color: #ff4444;
-    opacity: 0.7;
-}
-
-.table-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-.table-name {
-    font-weight: 800;
-    font-size: 1.2rem;
-}
-
-.table-score {
-    background: #ffd700;
-    color: #1a1a2e;
-    padding: 3px 10px;
-    border-radius: 20px;
-    font-weight: 800;
-}
-
-.table-columns {
-    font-size: 0.9rem;
-}
-
-.column-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 5px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
 .column-name {
-    font-family: 'Monaco', monospace;
+    font-weight: 600;
+    color: #ffd700;
 }
 
-.column-badge {
+.column-type {
     font-size: 0.8rem;
+    color: #888;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 2px 8px;
+    border-radius: 12px;
+}
+
+.column-badges {
+    display: flex;
+    gap: 5px;
+}
+
+.badge {
+    font-size: 0.7rem;
     padding: 2px 6px;
     border-radius: 10px;
+    font-weight: 500;
 }
 
-.column-badge.pk {
+.badge.pk {
     background: #ffd700;
-    color: #1a1a2e;
+    color: #000;
 }
 
-.column-badge.fk {
+.badge.fk {
     background: #4ecdc4;
-    color: #1a1a2e;
+    color: #000;
 }
 
-.column-badge.notnull {
+.badge.nn {
     background: #ff6b6b;
-    color: white;
+    color: #fff;
 }
 
-/* Граф */
-#graphContainer {
-    height: 500px;
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 15px;
-    overflow: hidden;
+.badge.unq {
+    background: #9b59b6;
+    color: #fff;
 }
 
-/* Данные */
-.data-tables {
-    max-height: 500px;
+.badge.chk {
+    background: #f39c12;
+    color: #000;
+}
+
+.badge.def {
+    background: #3498db;
+    color: #fff;
+}
+
+.column-constraints {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+/* Правая колонка - все таблицы */
+.tables-grid {
+    flex: 1;
     overflow-y: auto;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    min-height: 0;
 }
 
-.data-table {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 15px;
-    padding: 15px;
-    margin-bottom: 20px;
+.table-preview-card {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 12px;
+    padding: 12px;
+    border-left: 3px solid;
+    transition: all 0.2s;
+    flex-shrink: 0;
 }
 
-.data-table h4 {
-    color: #ffd700;
+.table-preview-card.valid {
+    border-left-color: #44ff44;
+}
+
+.table-preview-card.invalid {
+    border-left-color: #ff4444;
+}
+
+.preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 10px;
 }
 
-.data-table table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.data-table th {
-    background: rgba(255, 215, 0, 0.2);
-    padding: 8px;
-    text-align: left;
+.preview-name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     font-weight: 600;
 }
 
-.data-table td {
-    padding: 6px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* Лог проверки */
-.validation-log {
-    background: rgba(0, 0, 0, 0.8);
-    border-radius: 15px;
-    margin-top: 20px;
-    border: 1px solid #ffd700;
-}
-
-.log-header {
-    padding: 10px 15px;
-    background: rgba(255, 215, 0, 0.2);
-    border-radius: 15px 15px 0 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.clear-log {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 1.2rem;
-    cursor: pointer;
-    opacity: 0.5;
-    transition: opacity 0.3s;
-}
-
-.clear-log:hover {
-    opacity: 1;
-}
-
-.log-messages {
-    padding: 15px;
-    max-height: 150px;
-    overflow-y: auto;
-}
-
-.log-entry {
-    padding: 5px;
-    margin: 5px 0;
-    border-left: 3px solid;
-    animation: slideIn 0.3s;
-}
-
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateX(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-.log-entry.success {
-    border-color: #44ff44;
-    color: #aaffaa;
-}
-
-.log-entry.error {
-    border-color: #ff4444;
-    color: #ffaaaa;
-}
-
-.log-entry.info {
-    border-color: #ffd700;
-    color: #ffffaa;
-}
-
-/* Колонка результатов */
-.results-column {
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    padding: 20px;
-    border: 2px solid #ffd700;
-}
-
-.tables-results {
-    margin: 20px 0;
-    max-height: 500px;
-    overflow-y: auto;
-}
-
-.result-card {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 12px;
-    padding: 15px;
-    margin-bottom: 15px;
-    transition: all 0.3s;
-}
-
-.result-card.valid {
-    border-left: 5px solid #44ff44;
-}
-
-.result-card.invalid {
-    border-left: 5px solid #ff4444;
-}
-
-.result-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.result-name {
-    font-weight: 800;
-    font-size: 1.1rem;
-}
-
-.result-score {
+.preview-score {
     background: #ffd700;
-    color: #1a1a2e;
-    padding: 3px 10px;
-    border-radius: 20px;
-    font-weight: 800;
+    color: #000;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 700;
 }
 
-.result-details {
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.7);
+.preview-columns {
+    font-size: 0.8rem;
+    color: #888;
 }
 
-.result-detail {
+.preview-column {
     display: flex;
     justify-content: space-between;
     padding: 3px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
 }
 
-.total-score {
-    text-align: center;
-    margin-top: 20px;
-    padding: 20px;
-    background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.1));
-    border-radius: 15px;
-    border: 2px solid #ffd700;
+/* Кастомные скроллы */
+.tables-list::-webkit-scrollbar,
+.table-schema::-webkit-scrollbar,
+.tables-grid::-webkit-scrollbar {
+    width: 4px;
 }
 
-.total-label {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
+.tables-list::-webkit-scrollbar-track,
+.table-schema::-webkit-scrollbar-track,
+.tables-grid::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
 }
 
-.total-value {
-    font-size: 4rem;
-    font-weight: 800;
-    color: #ffd700;
-    text-shadow: 0 0 30px #ffd700;
-    animation: pulse-score 2s infinite;
+.tables-list::-webkit-scrollbar-thumb,
+.table-schema::-webkit-scrollbar-thumb,
+.tables-grid::-webkit-scrollbar-thumb {
+    background: rgba(255, 215, 0, 0.2);
+    border-radius: 2px;
 }
 
-@keyframes pulse-score {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-}
-
-/* Адаптивность */
-@media (max-width: 1200px) {
-    .battle-main {
-        grid-template-columns: 1fr;
+/* Адаптация под высоту */
+@media (max-height: 800px) {
+    .gif-container {
+        height: 80px;
+    }
+    
+    .column-header {
+        padding: 10px;
+    }
+    
+    .table-mini-card {
+        padding: 8px;
     }
 }
