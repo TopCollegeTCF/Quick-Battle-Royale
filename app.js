@@ -1,88 +1,99 @@
-// Конфигурация таблиц с описаниями для подсказок
+// Конфигурация таблиц с описаниями и требованиями
 const TABLES_CONFIG = [
-    {
-        id: 'clans',
-        name: 'Clans',
-        icon: '🏰',
+    { 
+        id: 'clans', 
+        name: 'Clans', 
+        icon: '🏰', 
         desc: 'Кланы игроков',
-        tooltip: '🏰 **Кланы** - сообщества игроков\n• id: INTEGER PRIMARY KEY\n• name: TEXT NOT NULL\n• trophies: INTEGER DEFAULT 0\n• max_members: INTEGER DEFAULT 50',
+        tooltip: '🏰 **КЛАНЫ**\n• id INTEGER PRIMARY KEY\n• name TEXT NOT NULL\n• trophies INTEGER DEFAULT 0\n• max_members INTEGER DEFAULT 50',
         required: ['id', 'name', 'trophies', 'max_members']
     },
-    {
-        id: 'players',
-        name: 'Players',
-        icon: '👑',
+    { 
+        id: 'players', 
+        name: 'Players', 
+        icon: '👑', 
         desc: 'Игроки',
-        tooltip: '👑 **Игроки** - профили пользователей\n• id: INTEGER PRIMARY KEY\n• nickname: TEXT NOT NULL\n• level: INTEGER CHECK(1-14)\n• experience: INTEGER DEFAULT 0\n• arena: TEXT\n• clan_id: INTEGER FOREIGN KEY',
+        tooltip: '👑 **ИГРОКИ**\n• id INTEGER PRIMARY KEY\n• nickname TEXT NOT NULL\n• level INTEGER CHECK(1-14)\n• experience INTEGER DEFAULT 0\n• arena TEXT\n• clan_id INTEGER FOREIGN KEY',
         required: ['id', 'nickname', 'level', 'experience', 'arena', 'clan_id']
     },
-    {
-        id: 'cards',
-        name: 'Cards',
-        icon: '🃏',
+    { 
+        id: 'cards', 
+        name: 'Cards', 
+        icon: '🃏', 
         desc: 'Карты',
-        tooltip: '🃏 **Карты** - игровые карты\n• id: INTEGER PRIMARY KEY\n• name: TEXT UNIQUE NOT NULL\n• elixir_cost: INTEGER CHECK(1-9)\n• rarity: TEXT\n• arena_unlock: TEXT',
+        tooltip: '🃏 **КАРТЫ**\n• id INTEGER PRIMARY KEY\n• name TEXT UNIQUE NOT NULL\n• elixir_cost INTEGER CHECK(1-9)\n• rarity TEXT\n• arena_unlock TEXT',
         required: ['id', 'name', 'elixir_cost', 'rarity', 'arena_unlock']
     },
-    {
-        id: 'battles',
-        name: 'Battles',
-        icon: '⚔️',
+    { 
+        id: 'battles', 
+        name: 'Battles', 
+        icon: '⚔️', 
         desc: 'Сражения',
-        tooltip: '⚔️ **Сражения** - история битв\n• id: INTEGER PRIMARY KEY\n• winner_id: INTEGER FOREIGN KEY\n• loser_id: INTEGER FOREIGN KEY\n• battle_date: DATETIME DEFAULT\n• duration_seconds: INTEGER\n• arena: TEXT\n• winner_trophies_change: INTEGER DEFAULT 30\n• loser_trophies_change: INTEGER DEFAULT -30',
+        tooltip: '⚔️ **СРАЖЕНИЯ**\n• id INTEGER PRIMARY KEY\n• winner_id INTEGER FOREIGN KEY\n• loser_id INTEGER FOREIGN KEY\n• battle_date DATETIME DEFAULT\n• duration_seconds INTEGER CHECK\n• arena TEXT\n• winner_trophies_change INTEGER DEFAULT 30\n• loser_trophies_change INTEGER DEFAULT -30',
         required: ['id', 'winner_id', 'loser_id', 'battle_date', 'duration_seconds', 'arena', 'winner_trophies_change', 'loser_trophies_change']
     },
-    {
-        id: 'player_cards',
-        name: 'PlayerCards',
-        icon: '🎴',
+    { 
+        id: 'player_cards', 
+        name: 'PlayerCards', 
+        icon: '🎴', 
         desc: 'Коллекция карт',
-        tooltip: '🎴 **Карты игроков** - коллекция\n• player_id: INTEGER FOREIGN KEY\n• card_id: INTEGER FOREIGN KEY\n• level: INTEGER CHECK(1-14)\n• count: INTEGER DEFAULT 1\n• is_favorite: BOOLEAN DEFAULT 0',
+        tooltip: '🎴 **КАРТЫ ИГРОКОВ**\n• player_id INTEGER FOREIGN KEY\n• card_id INTEGER FOREIGN KEY\n• level INTEGER CHECK(1-14)\n• count INTEGER DEFAULT 1\n• is_favorite BOOLEAN DEFAULT 0',
         required: ['player_id', 'card_id', 'level', 'count', 'is_favorite']
     },
-    {
-        id: 'decks',
-        name: 'Decks',
-        icon: '🃏',
+    { 
+        id: 'decks', 
+        name: 'Decks', 
+        icon: '🃏', 
         desc: 'Колоды',
-        tooltip: '🃏 **Колоды** - наборы карт\n• id: INTEGER PRIMARY KEY\n• player_id: INTEGER FOREIGN KEY\n• name: TEXT NOT NULL\n• card1_id - card8_id: INTEGER FOREIGN KEY\n• is_active: BOOLEAN DEFAULT 0\n• created_date: DATETIME DEFAULT',
+        tooltip: '🃏 **КОЛОДЫ**\n• id INTEGER PRIMARY KEY\n• player_id INTEGER FOREIGN KEY\n• name TEXT NOT NULL\n• card1_id-card8_id FOREIGN KEY\n• is_active BOOLEAN DEFAULT 0\n• created_date DATETIME DEFAULT',
         required: ['id', 'player_id', 'name', 'is_active', 'created_date']
     },
-    {
-        id: 'tournaments',
-        name: 'Tournaments',
-        icon: '🏆',
+    { 
+        id: 'tournaments', 
+        name: 'Tournaments', 
+        icon: '🏆', 
         desc: 'Турниры',
-        tooltip: '🏆 **Турниры** - соревнования\n• id: INTEGER PRIMARY KEY\n• name: TEXT NOT NULL\n• max_players: INTEGER\n• start_date: DATETIME\n• prize: TEXT',
+        tooltip: '🏆 **ТУРНИРЫ**\n• id INTEGER PRIMARY KEY\n• name TEXT NOT NULL\n• max_players INTEGER\n• start_date DATETIME\n• prize TEXT',
         required: ['id', 'name', 'max_players', 'start_date', 'prize']
     },
-    {
-        id: 'achievements',
-        name: 'Achievements',
-        icon: '⭐',
+    { 
+        id: 'achievements', 
+        name: 'Achievements', 
+        icon: '⭐', 
         desc: 'Достижения',
-        tooltip: '⭐ **Достижения** - награды игроков\n• id: INTEGER PRIMARY KEY\n• player_id: INTEGER FOREIGN KEY\n• name: TEXT NOT NULL\n• date_earned: DATETIME DEFAULT',
+        tooltip: '⭐ **ДОСТИЖЕНИЯ**\n• id INTEGER PRIMARY KEY\n• player_id INTEGER FOREIGN KEY\n• name TEXT NOT NULL\n• date_earned DATETIME DEFAULT',
         required: ['id', 'player_id', 'name', 'date_earned']
     },
-    {
-        id: 'shop',
-        name: 'Shop',
-        icon: '🛒',
+    { 
+        id: 'shop', 
+        name: 'Shop', 
+        icon: '🛒', 
         desc: 'Магазин',
-        tooltip: '🛒 **Магазин** - внутриигровые покупки\n• id: INTEGER PRIMARY KEY\n• item_name: TEXT NOT NULL\n• price_gems: INTEGER\n• available: BOOLEAN DEFAULT 1',
+        tooltip: '🛒 **МАГАЗИН**\n• id INTEGER PRIMARY KEY\n• item_name TEXT NOT NULL\n• price_gems INTEGER\n• available BOOLEAN DEFAULT 1',
         required: ['id', 'item_name', 'price_gems', 'available']
     },
-    {
-        id: 'chests',
-        name: 'Chests',
-        icon: '📦',
+    { 
+        id: 'chests', 
+        name: 'Chests', 
+        icon: '📦', 
         desc: 'Сундуки',
-        tooltip: '📦 **Сундуки** - награды\n• id: INTEGER PRIMARY KEY\n• player_id: INTEGER FOREIGN KEY\n• chest_type: TEXT\n• arena: TEXT\n• unlock_time: DATETIME',
+        tooltip: '📦 **СУНДУКИ**\n• id INTEGER PRIMARY KEY\n• player_id INTEGER FOREIGN KEY\n• chest_type TEXT\n• arena TEXT\n• unlock_time DATETIME',
         required: ['id', 'player_id', 'chest_type', 'arena', 'unlock_time']
     }
 ];
 
-// Загрузка при открытии
+// Веса для подсчета очков
+const SCORES = {
+    column: 1,        // базовая колонка
+    primary_key: 10,  // PRIMARY KEY
+    foreign_key: 8,   // FOREIGN KEY
+    not_null: 5,      // NOT NULL
+    unique: 5,        // UNIQUE
+    check: 5,         // CHECK
+    default: 3,       // DEFAULT
+    type_match: 2     // правильный тип данных
+};
+
 window.addEventListener('load', () => {
     renderTablesList('red');
     renderTablesList('blue');
@@ -90,14 +101,20 @@ window.addEventListener('load', () => {
     loadTeamStats('blue');
 });
 
-// Отрисовка списка таблиц
 function renderTablesList(team) {
     const container = document.getElementById(`${team}Tables`);
+    if (!container) return;
     container.innerHTML = '';
     
     TABLES_CONFIG.forEach(table => {
         const item = document.createElement('div');
         item.className = 'table-item';
+        
+        // Форматируем подсказку
+        const tooltipHtml = table.tooltip
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\n/g, '<br>');
+        
         item.innerHTML = `
             <span class="table-icon">${table.icon}</span>
             <div class="table-info">
@@ -108,16 +125,14 @@ function renderTablesList(team) {
                 <span class="table-preview" id="${team}-${table.id}-cols">0</span>
             </div>
             <div class="tooltip">
-                <strong>${table.name}</strong>
-                ${table.tooltip.split('\\n').join('<br>')}
-                <br><em>Наведи на другие таблицы для подсказки</em>
+                ${tooltipHtml}
+                <em>Наведи на другие таблицы</em>
             </div>
         `;
         container.appendChild(item);
     });
 }
 
-// Загрузка статистики команды
 async function loadTeamStats(team) {
     let totalScore = 0;
     
@@ -125,12 +140,10 @@ async function loadTeamStats(team) {
         try {
             const response = await fetch(`teams/${team}/${table.id}.sql`);
             const content = await response.text();
+            const score = calculateTableScore(content, table.required);
             
-            // Подсчет колонок
-            const columns = countColumns(content, table.required);
-            document.getElementById(`${team}-${table.id}-cols`).textContent = columns;
-            totalScore += columns;
-            
+            document.getElementById(`${team}-${table.id}-cols`).textContent = score;
+            totalScore += score;
         } catch (error) {
             document.getElementById(`${team}-${table.id}-cols`).textContent = '0';
         }
@@ -139,21 +152,33 @@ async function loadTeamStats(team) {
     document.getElementById(`${team}Score`).textContent = totalScore;
 }
 
-// Подсчет правильных колонок
-function countColumns(sql, required) {
-    let count = 0;
+function calculateTableScore(sql, requiredColumns) {
+    let score = 0;
     const sqlLower = sql.toLowerCase();
     
-    required.forEach(col => {
+    requiredColumns.forEach(col => {
+        // Базовая колонка
         if (sqlLower.includes(col.toLowerCase())) {
-            count++;
+            score += SCORES.column;
+            
+            // Проверка типов и ограничений
+            const colIndex = sqlLower.indexOf(col.toLowerCase());
+            const context = sqlLower.substring(colIndex, colIndex + 100);
+            
+            if (context.includes('integer')) score += SCORES.type_match;
+            if (context.includes('text')) score += SCORES.type_match;
+            if (context.includes('primary key')) score += SCORES.primary_key;
+            if (context.includes('foreign key')) score += SCORES.foreign_key;
+            if (context.includes('not null')) score += SCORES.not_null;
+            if (context.includes('unique')) score += SCORES.unique;
+            if (context.includes('check')) score += SCORES.check;
+            if (context.includes('default')) score += SCORES.default;
         }
     });
     
-    return count;
+    return score;
 }
 
-// Вход в битву
 function enterBattle(team) {
     localStorage.setItem('selectedTeam', team);
     window.location.href = 'battle.html';
