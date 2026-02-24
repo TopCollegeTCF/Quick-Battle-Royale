@@ -14,7 +14,7 @@ const TABLES_CONFIG = [
 
 // Веса для подсчета очков
 const SCORES = {
-    column: 1,
+    column: 4,
     primary_key: 2,
     foreign_key: 2,
     not_null: 1,
