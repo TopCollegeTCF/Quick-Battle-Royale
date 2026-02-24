@@ -1,0 +1,34 @@
+CREATE TABLE IF NOT EXISTS Players (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  level INTEGER,
+  clan_id INTEGER
+);
+CREATE TABLE IF NOT EXISTS Clans (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  level INTEGER,
+  max_members INTEGER NOT NULL
+);
+CREATE TABLE IF NOT EXISTS Battles (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  id_win INTEGER NOT NULL,
+  id_lost INTEGER,
+  duration_seconds INTEGER,
+  data DATETIME
+  
+);
+
+
+
+
+
+
+
+
+SELECT * FROM Players;
+SELECT * FROM Clans;
+SELECT * FROM Battles;
+DROP TABLE Players;
+DROP TABLE Clans;
+DROP TABLE Battles;
