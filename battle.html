@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clash Royale SQL Arena - Битва</title>
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/sql.js@1.8.0/dist/sql-wasm.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css" />
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="battle-style.css">
+</head>
+<body>
+    <!-- Анимированный фон -->
+    <div class="battle-sparkles"></div>
+    
+    <div class="battle-arena">
+        <!-- Шапка с командой -->
+        <header class="battle-header" id="battleHeader">
+            <button class="back-btn" onclick="window.location.href='index.html'">
+                <i class="fas fa-arrow-left"></i> К ВЫБОРУ
+            </button>
+            <div class="team-badge" id="teamBadge">
+                <span class="team-emoji" id="teamEmoji">🔴</span>
+                <span class="team-name" id="teamName">КРАСНАЯ БАШНЯ</span>
+            </div>
+            <div class="trophy-counter" id="trophyCounter">
+                <span class="trophy-icon">🏆</span>
+                <span class="trophy-count" id="totalTrophies">0</span>
+            </div>
+        </header>
+        
+        <!-- Основное поле битвы -->
+        <main class="battle-main">
+            <!-- Левая колонка - SQL файлы -->
+            <div class="sql-column">
+                <h2><i class="fas fa-file-code"></i> SQL ФАЙЛЫ</h2>
+                
+                <div class="sql-files-list" id="sqlFilesList">
+                    <!-- Динамически загружаются -->
+                </div>
+                
+                <button class="analyze-btn" id="analyzeBtn">
+                    <i class="fas fa-search"></i> ПРОВЕРИТЬ ВСЕ ТАБЛИЦЫ
+                </button>
+            </div>
+            
+            <!-- Центральная колонка - Визуализация -->
+            <div class="visualization-column">
+                <div class="viz-header">
+                    <h2><i class="fas fa-eye"></i> ВИЗУАЛИЗАЦИЯ</h2>
+                    <div class="viz-tabs">
+                        <button class="viz-tab active" data-view="schema">📊 Схема</button>
+                        <button class="viz-tab" data-view="graph">🔗 Связи</button>
+                        <button class="viz-tab" data-view="data">📦 Данные</button>
+                    </div>
+                </div>
+                
+                <div class="viz-content">
+                    <!-- Схема таблиц -->
+                    <div class="viz-pane active" id="schemaPane">
+                        <div class="tables-grid" id="tablesGrid"></div>
+                    </div>
+                    
+                    <!-- Граф связей -->
+                    <div class="viz-pane" id="graphPane">
+                        <div id="graphContainer"></div>
+                    </div>
+                    
+                    <!-- Данные -->
+                    <div class="viz-pane" id="dataPane">
+                        <div id="dataContainer"></div>
+                    </div>
+                </div>
+                
+                <!-- Лог проверки -->
+                <div class="validation-log" id="validationLog">
+                    <div class="log-header">
+                        <span><i class="fas fa-clipboard-list"></i> ЛОГ ПРОВЕРКИ</span>
+                        <button class="clear-log" onclick="clearLog()">✖</button>
+                    </div>
+                    <div class="log-messages" id="logMessages"></div>
+                </div>
+            </div>
+            
+            <!-- Правая колонка - Результаты -->
+            <div class="results-column">
+                <h2><i class="fas fa-trophy"></i> РЕЗУЛЬТАТЫ</h2>
+                
+                <div class="tables-results" id="tablesResults">
+                    <!-- Карточки результатов таблиц -->
+                </div>
+                
+                <div class="total-score">
+                    <div class="total-label">ВСЕГО КУБКОВ:</div>
+                    <div class="total-value" id="totalScore">0</div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="app.js"></script>
+    <script src="battle.js"></script>
+</body>
+</html>
