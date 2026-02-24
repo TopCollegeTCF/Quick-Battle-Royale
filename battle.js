@@ -12,8 +12,8 @@ const TABLES = [
 ];
 
 const SCORES = {
-    column: 1, primary_key: 10, foreign_key: 8,
-    not_null: 5, unique: 5, check: 5, default: 3, type_match: 2
+    column: 1, primary_key: 2, foreign_key: 2,
+    not_null: 1, unique: 2, check: 2, default: 3, type_match: 2
 };
 
 let currentTeam = null;
