@@ -14,8 +14,8 @@ gold INTEGER
 
 CREATE TABLE IF NOT EXIST cards(
 varvar VARCHAR,
-bochka VARCAHR,
-brevno VARCAHR
+bochka VARCHAR,
+brevno VARCHAR
 )
 CREATE TABLE IF NOT EXIST stats brevno(
 mana INTEGER,
