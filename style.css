@@ -388,3 +388,44 @@ body {
     .teams-container { gap: 15px; }
     .legend { flex-wrap: wrap; gap: 15px; }
 }
+
+.table-item {
+    position: relative;
+}
+
+.table-item .tooltip {
+    visibility: hidden;
+    position: fixed; /* fixed вместо absolute */
+    bottom: auto;
+    left: auto;
+    transform: none;
+    background: #1e1e2e;
+    padding: 18px 22px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    width: 320px;
+    border: 1px solid #ffd700;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 0 2px rgba(255, 215, 0, 0.2);
+    z-index: 999999; /* максимальный z-index */
+    white-space: normal;
+    line-height: 1.6;
+    color: #ddd;
+    pointer-events: none;
+    backdrop-filter: blur(10px);
+}
+
+/* Позиционируем подсказку динамически через JS */
+.table-item:hover .tooltip {
+    visibility: visible;
+}
+
+@keyframes tooltipFadeIn {
+    from { 
+        opacity: 0; 
+        transform: translateY(15px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
