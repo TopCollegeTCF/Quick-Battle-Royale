@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clash Royale SQL Arena</title>
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/sql.js@1.8.0/dist/sql-wasm.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css" />
+    
+    <!-- Our Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Анимированный фон с искрами -->
+    <div class="sparkles"></div>
+    
+    <!-- Главная арена -->
+    <div class="arena">
+        <!-- Шапка с трофеями -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo-container">
+                    <img src="https://i.imgur.com/7QJxXPG.png" alt="Clash Royale Logo" class="logo">
+                    <h1>SQL <span class="arena-text">ARENA</span></h1>
+                </div>
+                <div class="trophies">
+                    <span class="trophy-icon">🏆</span>
+                    <span class="trophy-count" id="trophyCounter">0</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Основной игровой экран -->
+        <main class="battle-field">
+            <!-- Левая колонка - SQL редактор -->
+            <div class="column red-tower">
+                <div class="tower-header">
+                    <h2><i class="fas fa-dragon"></i> КРАСНАЯ БАШНЯ</h2>
+                    <div class="elixir-bar">
+                        <div class="elixir-fill" id="elixirRed"></div>
+                    </div>
+                </div>
+                
+                <!-- Карточки SQL файлов -->
+                <div class="sql-cards" id="sqlCards">
+                    <!-- Динамически загружаются через JS -->
+                </div>
+                
+                <button class="battle-btn red" id="executeRed">
+                    <i class="fas fa-bolt"></i> ЗАПУСТИТЬ SQL
+                </button>
+            </div>
+
+            <!-- Центр - визуализация -->
+            <div class="column center">
+                <div class="arena-title">
+                    <h2>🔥 БИТВА ЗА ДАННЫЕ 🔥</h2>
+                    <div class="king-tower">
+                        <div class="crown">👑</div>
+                        <div class="tower-level" id="dbStatus">0/4 таблиц</div>
+                    </div>
+                </div>
+                
+                <!-- Контейнер для визуализации -->
+                <div class="visualization-container">
+                    <div class="tab-buttons">
+                        <button class="tab-btn active" data-tab="schema">📊 Схема</button>
+                        <button class="tab-btn" data-tab="graph">🔗 Связи</button>
+                        <button class="tab-btn" data-tab="data">📦 Данные</button>
+                    </div>
+                    
+                    <div class="visualization-content">
+                        <div id="schemaView" class="tab-pane active">
+                            <div id="schemaGrid" class="schema-grid"></div>
+                        </div>
+                        <div id="graphView" class="tab-pane">
+                            <div id="graphContainer"></div>
+                        </div>
+                        <div id="dataView" class="tab-pane">
+                            <div id="dataTables"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Лог битвы -->
+                <div class="battle-log" id="battleLog">
+                    <div class="log-header">
+                        <span>⚔️ ЛОГ СРАЖЕНИЯ</span>
+                        <span class="log-clear" onclick="clearLog()">✖</span>
+                    </div>
+                    <div class="log-messages" id="logMessages"></div>
+                </div>
+            </div>
+
+            <!-- Правая колонка - SQL редактор -->
+            <div class="column blue-tower">
+                <div class="tower-header">
+                    <h2><i class="fas fa-ghost"></i> СИНЯЯ БАШНЯ</h2>
+                    <div class="elixir-bar">
+                        <div class="elixir-fill" id="elixirBlue"></div>
+                    </div>
+                </div>
+                
+                <!-- Карточки SQL файлов -->
+                <div class="sql-cards" id="sqlCardsBlue">
+                    <!-- Динамически загружаются -->
+                </div>
+                
+                <button class="battle-btn blue" id="executeBlue">
+                    <i class="fas fa-bolt"></i> ЗАПУСТИТЬ SQL
+                </button>
+            </div>
+        </main>
+
+        <!-- Нижняя панель с инструкцией -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="command-hint">
+                    <span class="hint-icon">📋</span>
+                    <span>Напиши CREATE TABLE в .sql файлах репозитория</span>
+                </div>
+                <div class="arena-timer" id="arenaTimer">
+                    <span class="timer-label">До конца битвы:</span>
+                    <span class="timer-value">60:00</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Скрипты -->
+    <script src="app.js"></script>
+</body>
+</html>
