@@ -1,1 +1,9 @@
-
+CREATE TABLE decks (
+    id INT PRIMARY KEY AUTOINCREMENT,
+    user_id INT NOT NULL,
+    deck_name VARCHAR(100) NOT NULL,
+    is_active BOOLEAN DEFAULT (0),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
