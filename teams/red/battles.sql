@@ -1,1 +1,6 @@
-
+CREATE TABLE battles(
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+player_names TEXT NOT NULL,
+trophies INTEGER DEFAULT 0,
+map_name TEXT NOT NULL
+);
