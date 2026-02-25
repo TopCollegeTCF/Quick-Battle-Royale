@@ -1,1 +1,8 @@
-
+CREATE TABLE IF NOT EXISTS battles (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+    health_playr INTEGER NOT NULL,
+    health_tower INTEGER NOT NULL DEFAULT 1000,
+    players_on_the_map INTEGER NOT NULL DEFAULT 2,
+    winners BOOLEAN DEFAULT 1,
+    losers BOOLEAN DEFAULT 0
+)
