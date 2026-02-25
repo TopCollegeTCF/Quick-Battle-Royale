@@ -5,5 +5,9 @@ CREATE TABLE Players (
     experience INTEGER DEFAULT 0,
     arena TEXT DEFAULT 'Arena 1',
     clan_id INTEGER,
-    FOREIGN KEY (clan_id) REFERENCES Clans(id)
+    FOREIGN KEY (clan_id) REFERENCES Clans(id),
+  	cups INTEGER DEFAULT 0,
+  	age INTEGER NOT NULL,
+  	friends INTEGER DEFAULT 0	
+  	 
 );
