@@ -1,1 +1,5 @@
-
+CREATE TABLE decks(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  DEFAULT starts ,
+  
+  )
