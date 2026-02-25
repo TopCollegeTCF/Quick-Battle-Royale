@@ -5,5 +5,8 @@ CREATE TABLE Players (
     experience INTEGER DEFAULT 0,
     arena TEXT DEFAULT 'Arena 1',
     clan_id INTEGER,
+  	weapon TEXT DEFAULT 'Sword',
+  	race text DEFAULT 'human',
     FOREIGN KEY (clan_id) REFERENCES Clans(id)
+  
 );
