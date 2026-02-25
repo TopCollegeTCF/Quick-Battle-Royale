@@ -2,6 +2,12 @@ CREATE TABLE Clans (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     trophies INTEGER DEFAULT 0,
-    max_members INTEGER DEFAULT 50
+    max_members INTEGER DEFAULT 50,
+    level INTEGER DEFAULT 0,
+    veterans INTEGER DEFAULT 1,
+    gold INTEGER DEFAULT 0,
+    Persent_win FLOAT,
+    Data INTEGER DEFAULT 0
 );
+
 
